@@ -1,0 +1,35 @@
+.header {
+  background-color: #1c1c21;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1270px;
+  padding: 16px 15px;
+  display: flex;
+  align-items: center;
+}
+
+.PersonalAccount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.OrderFeed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logoWrapper {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.Designer {
+  display: flex;
+  gap: 8px;
+}
