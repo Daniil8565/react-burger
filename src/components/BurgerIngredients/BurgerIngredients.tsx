@@ -25,19 +25,22 @@ const TabSwitch = () => {
 const BurgerIngredients = () => {
   return (
     <div className={styles.container}>
-      <h2>Соберите бургер</h2>
       <TabSwitch />
-      {dataArray.map((item, index) => {
-        return (
-          <div>
-            <img src={item.image} alt="" />
-            <h3>{item.name}</h3>
-            <Counter count={index + 1} size="default" extraClass="m-1" />
-            <p>{item.price}</p>
-            <CurrencyIcon type="primary" />
-          </div>
-        );
-      })}
+      <div className={styles.ListBurger}>
+        {dataArray.map((item, index) => {
+          return (
+            <div key={index} className={styles.BurgerItem}>
+              <img src={item.image} alt="" />
+              <div className={styles.container__price}>
+                <p>{item.price}</p>
+                <CurrencyIcon type="primary" />
+              </div>
+              <p>{item.name}</p>
+              <Counter count={index + 1} size="default" extraClass="m-1" />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

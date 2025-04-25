@@ -1,5 +1,55 @@
 .container {
-  margin: 0 auto;
-  max-width: 1270px;
-  padding: 0 15px;
+  color: white;
+  width: 50%;
+  height: 100%; /* или задай фиксированную высоту, если нужно */
+  display: flex;
+  flex-direction: column;
+}
+
+.ListBurger {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Две карточки в строке */
+  gap: 16px;
+  overflow-y: auto;
+  max-height: calc(
+    100vh - 300px
+  ); /* вычти примерную высоту заголовка + табов */
+  padding-right: 8px;
+  padding-top: 16px;
+  margin-bottom: 40px;
+}
+
+/* Оформление карточки ингредиента */
+.BurgerItem {
+  border-radius: 20px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.container__price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.BurgerItem p {
+  margin: 0;
+}
+
+/* Кастомный вертикальный скролл */
+.ListBurger::-webkit-scrollbar {
+  width: 6px;
+}
+.ListBurger::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+  border-radius: 4px;
+}
+.ListBurger::-webkit-scrollbar-track {
+  background: transparent;
 }

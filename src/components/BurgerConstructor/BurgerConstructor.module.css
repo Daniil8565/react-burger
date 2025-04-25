@@ -1,0 +1,59 @@
+.BurgerConstructor {
+  width: 100%;
+}
+
+.ListBurger {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: calc(
+    100vh - 400px
+  ); /* вычти примерную высоту заголовка + табов */
+  overflow-y: auto;
+}
+
+.itemBurger {
+  display: flex;
+  align-items: center;
+  background-color: #1c1c21;
+  border-radius: 88px 88px 40px 40px;
+}
+
+.container__price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  margin-right: 22px;
+}
+
+img {
+  width: 80px;
+  height: 40px;
+}
+
+.buttonAndPrice {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.priceAndIcon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Кастомный вертикальный скролл */
+.ListBurger::-webkit-scrollbar {
+  width: 6px;
+}
+.ListBurger::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+  border-radius: 4px;
+}
+.ListBurger::-webkit-scrollbar-track {
+  background: transparent;
+}

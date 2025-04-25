@@ -1,3 +1,22 @@
 body {
   background-color: #131316;
+  overflow: hidden;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  max-width: 1270px;
+  margin: 0 auto;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.mainBurger {
+  display: flex;
+  gap: 40px;
+  margin: 0 auto;
+  max-width: 1270px;
+  padding: 0 15px;
 }
