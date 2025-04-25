@@ -1,9 +1,13 @@
 import React from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerIngredients.module.css';
-import { dataArray } from '../../utils/data';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Idata } from '../../constant';
+
+type BurgerIngredientsProps = {
+  data: Idata[];
+};
 
 const TabSwitch = () => {
   const [current, setCurrent] = React.useState('Булки');
@@ -22,12 +26,12 @@ const TabSwitch = () => {
   );
 };
 
-const BurgerIngredients = () => {
+const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
   return (
     <div className={styles.container}>
       <TabSwitch />
       <div className={styles.ListBurger}>
-        {dataArray.map((item, index) => {
+        {data.map((item, index) => {
           return (
             <div key={index} className={styles.BurgerItem}>
               <img src={item.image} alt="" />
