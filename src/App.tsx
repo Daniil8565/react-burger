@@ -37,6 +37,7 @@ function App() {
   if (state.error) {
     return <p>Произошла ошибка при загрузке данных</p>;
   }
+  console.log(state.data);
 
   return (
     <>

@@ -6,16 +6,17 @@
   flex-direction: column;
 }
 
+.content {
+  padding-top: 16px;
+  overflow-y: auto;
+  max-height: calc(100vh - 300px);
+  padding-right: 8px;
+}
+
 .ListBurger {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* Две карточки в строке */
   gap: 16px;
-  overflow-y: auto;
-  max-height: calc(
-    100vh - 300px
-  ); /* вычти примерную высоту заголовка + табов */
-  padding-right: 8px;
-  padding-top: 16px;
   margin-bottom: 40px;
 }
 

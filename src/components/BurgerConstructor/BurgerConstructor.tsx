@@ -5,10 +5,14 @@ import { DeleteIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { dataArray } from '../../utils/data';
 import styles from './BurgerConstructor.module.css';
+import Modal from '../Modal/Modal';
+import ModalOverlay from '../ModalOverlay/ModalOverlay';
+import OrderDetails from '../OrderDetails/OrderDetails';
 
 const BurgerConstructor = () => {
+  const [modal, setModal] = React.useState(false);
   return (
-    <div className={styles.BurgerConstructor}>
+    <section className={styles.BurgerConstructor}>
       <div className={styles.ListBurger}>
         {dataArray.map((item, index) => {
           return (
@@ -29,11 +33,24 @@ const BurgerConstructor = () => {
           <p className="text text_type_main-medium">610</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType="button" type="primary" size="medium">
+        <Button
+          htmlType="button"
+          type="primary"
+          size="medium"
+          onClick={() => setModal(!modal)}
+        >
           Оформить заказ
         </Button>
       </div>
-    </div>
+      {modal && (
+        <>
+          <ModalOverlay onClick={() => setModal(false)} />
+          <Modal onClick={() => setModal(false)}>
+            <OrderDetails />
+          </Modal>
+        </>
+      )}
+    </section>
   );
 };
 
