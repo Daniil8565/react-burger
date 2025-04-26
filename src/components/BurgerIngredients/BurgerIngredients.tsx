@@ -1,9 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerIngredients.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Idata } from '../../constant';
+import Modal from '../Modal/Modal';
+import ModalOverlay from '../ModalOverlay/ModalOverlay';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 const CATEGORIES = [
   { label: 'Булки', type: 'bun' },
@@ -43,6 +46,7 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
   const bunRef = useRef<HTMLDivElement>(null!);
   const sauceRef = useRef<HTMLDivElement>(null!);
   const mainRef = useRef<HTMLDivElement>(null!);
+  const [modal, setModal] = useState(false);
 
   const sectionRefs: Record<Category, React.RefObject<HTMLDivElement> | null> =
     {
@@ -59,6 +63,13 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
       ref!.current?.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const getIndexItem = (idx: number) => {
+    return data[idx];
+  };
+
+  const [selectedItem, setSelectedItem] = useState<Idata | null>(null);
+
   return (
     <section className={styles.container}>
       <TabSwitch current={currentTab} onChange={handleTabClick} />
@@ -70,7 +81,14 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
               {data
                 .filter((item) => item.type === cat.type)
                 .map((item, idx) => (
-                  <div key={item._id} className={styles.BurgerItem}>
+                  <div
+                    key={item._id}
+                    className={styles.BurgerItem}
+                    onClick={() => {
+                      setSelectedItem(item);
+                      setModal(true);
+                    }}
+                  >
                     <img
                       src={item.image}
                       alt={item.name}
@@ -88,6 +106,14 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
           </div>
         ))}
       </div>
+      {modal && selectedItem && (
+        <>
+          <ModalOverlay onClick={() => setModal(false)} />
+          <Modal onClick={() => setModal(false)} header="Детали ингредиента">
+            <IngredientDetails item={selectedItem} />
+          </Modal>
+        </>
+      )}
     </section>
   );
 };

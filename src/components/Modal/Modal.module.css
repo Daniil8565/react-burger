@@ -11,3 +11,6 @@
 .modalClose {
   margin-left: auto;
 }
+.modalClose:hover {
+  cursor: pointer;
+}

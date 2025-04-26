@@ -1,0 +1,18 @@
+.contentModal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.containerDataIngredient {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nutritionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
