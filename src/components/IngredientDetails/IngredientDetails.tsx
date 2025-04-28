@@ -7,18 +7,10 @@ type IngredientDetailsProps = {
 };
 
 const IngredientDetails: React.FC<IngredientDetailsProps> = ({ item }) => {
-  console.log(item);
   return (
     <div className={styles.contentModal}>
-      <img
-        src={item.image_large}
-        alt={item.name}
-        style={{ width: '520px', height: '240px' }}
-      />
-      <p
-        className="text text_type_digits-default"
-        style={{ marginTop: '16px', marginBottom: '32px' }}
-      >
+      <img src={item.image_large} alt={item.name} className={styles.image} />
+      <p className={`text text_type_digits-default ${styles.title}`}>
         {item.name}
       </p>
       <div className={styles.containerDataIngredient}>

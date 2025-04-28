@@ -21,7 +21,12 @@ function App() {
     setState({ ...state, loading: true, error: false });
 
     fetch(API_URL)
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
+      })
       .then((data) => {
         setState({ ...state, data: data.data, loading: false, error: false });
       })
@@ -43,7 +48,7 @@ function App() {
     <>
       <AppHeader />
       <main>
-        <h2>Соберите бургер</h2>
+        <h2 className="header">Соберите бургер</h2>
         <div className="mainBurger">
           {state.data && <BurgerIngredients data={state.data} />}
           <BurgerConstructor />

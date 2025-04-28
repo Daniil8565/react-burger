@@ -1,10 +1,13 @@
 import React from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { LockIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DeleteIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { dataArray } from '../../utils/data';
 import styles from './BurgerConstructor.module.css';
+import Logo from '../../images/bun-02.png';
 import Modal from '../Modal/Modal';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import OrderDetails from '../OrderDetails/OrderDetails';
@@ -13,20 +16,51 @@ const BurgerConstructor = () => {
   const [modal, setModal] = React.useState(false);
   return (
     <section className={styles.BurgerConstructor}>
-      <div className={styles.ListBurger}>
-        {dataArray.map((item, index) => {
-          return (
-            <div className={styles.itemBurger} key={index}>
-              <img src={item.image} alt="" />
-              <p>{item.name}</p>
-              <div className={styles.container__price}>
-                {item.price}
-                <CurrencyIcon type="primary" />
+      <div className={styles.ListBurgerWrapper}>
+        <div className={styles.Bun}>
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text="Краторная булка N-200i (верх)"
+            price={200}
+            thumbnail={Logo}
+          />
+        </div>
+
+        <div className={styles.ScrollableIngredients}>
+          {dataArray.map((item, index) => {
+            return (
+              <div
+                key={index}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                }}
+              >
+                <div className={styles.burgerItem}>
+                  <DragIcon type="primary" />
+                  <ConstructorElement
+                    type="bottom"
+                    isLocked={item.type === 'bun' ? true : false}
+                    text={item.name}
+                    price={item.price}
+                    thumbnail={item.image}
+                  />
+                </div>
               </div>
-              <LockIcon type="primary" />
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+        <div className={styles.Bun}>
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text="Краторная булка N-200i (низ)"
+            price={200}
+            thumbnail={Logo}
+          />
+        </div>
       </div>
       <div className={styles.buttonAndPrice}>
         <div className={styles.priceAndIcon}>
@@ -44,7 +78,6 @@ const BurgerConstructor = () => {
       </div>
       {modal && (
         <>
-          <ModalOverlay onClick={() => setModal(false)} />
           <Modal onClick={() => setModal(false)}>
             <OrderDetails />
           </Modal>
@@ -55,3 +88,12 @@ const BurgerConstructor = () => {
 };
 
 export default BurgerConstructor;
+// <div className={styles.itemBurger} key={index}>
+//   <img src={item.image} alt={item.name} />
+//   <p>{item.name}</p>
+//   <div className={styles.container__price}>
+//     {item.price}
+//     <CurrencyIcon type="primary" />
+//   </div>
+//   <LockIcon type="primary" />
+// </div>

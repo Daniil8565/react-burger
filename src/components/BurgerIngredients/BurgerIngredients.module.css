@@ -20,7 +20,11 @@
   margin-bottom: 40px;
 }
 
-/* Оформление карточки ингредиента */
+.image {
+  width: 240px;
+  height: 120px;
+}
+
 .BurgerItem {
   border-radius: 20px;
   padding: 12px;

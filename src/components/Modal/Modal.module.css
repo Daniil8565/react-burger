@@ -1,5 +1,14 @@
+/* Modal.module.css */
 .modal {
-  padding: 60px 40px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #1c1c21;
+  padding: 40px;
+  border-radius: 8px;
+  z-index: 1001;
+  min-width: 500px;
 }
 
 .modalHeader {

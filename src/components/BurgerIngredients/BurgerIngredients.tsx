@@ -64,10 +64,6 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
     }
   };
 
-  const getIndexItem = (idx: number) => {
-    return data[idx];
-  };
-
   const [selectedItem, setSelectedItem] = useState<Idata | null>(null);
 
   return (
@@ -92,7 +88,7 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
                     <img
                       src={item.image}
                       alt={item.name}
-                      style={{ width: '240px', height: '120px' }}
+                      className={styles.image}
                     />
                     <div className={styles.container__price}>
                       <p>{item.price}</p>
@@ -108,7 +104,7 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
       </div>
       {modal && selectedItem && (
         <>
-          <ModalOverlay onClick={() => setModal(false)} />
+          {/* <ModalOverlay onClick={() => setModal(false)} /> */}
           <Modal onClick={() => setModal(false)} header="Детали ингредиента">
             <IngredientDetails item={selectedItem} />
           </Modal>

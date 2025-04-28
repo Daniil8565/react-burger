@@ -2,23 +2,6 @@
   width: 100%;
 }
 
-.ListBurger {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-height: calc(
-    100vh - 400px
-  ); /* вычти примерную высоту заголовка + табов */
-  overflow-y: auto;
-}
-
-.itemBurger {
-  display: flex;
-  align-items: center;
-  background-color: #1c1c21;
-  border-radius: 88px 88px 40px 40px;
-}
-
 .container__price {
   display: flex;
   align-items: center;
@@ -40,20 +23,44 @@ img {
   margin-top: 40px;
 }
 
+.burgerItem {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .priceAndIcon {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-/* Кастомный вертикальный скролл */
-.ListBurger::-webkit-scrollbar {
+.ListBurgerWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.Bun {
+  padding-left: 45px;
+  flex-shrink: 0;
+}
+
+.ScrollableIngredients {
+  max-height: calc(100vh - 550px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ScrollableIngredients::-webkit-scrollbar {
   width: 6px;
 }
-.ListBurger::-webkit-scrollbar-thumb {
+.ScrollableIngredients::-webkit-scrollbar-thumb {
   background-color: #8585ad;
   border-radius: 4px;
 }
-.ListBurger::-webkit-scrollbar-track {
+.ScrollableIngredients::-webkit-scrollbar-track {
   background: transparent;
 }
