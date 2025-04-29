@@ -27,7 +27,7 @@ type TabSwitchProps = {
 
 const TabSwitch: React.FC<TabSwitchProps> = ({ current, onChange }) => {
   return (
-    <div style={{ display: 'flex' }}>
+    <div className={styles.tab}>
       <Tab value="Булки" active={current === 'Булки'} onClick={onChange}>
         Булки
       </Tab>
@@ -103,12 +103,9 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
         ))}
       </div>
       {modal && selectedItem && (
-        <>
-          {/* <ModalOverlay onClick={() => setModal(false)} /> */}
-          <Modal onClick={() => setModal(false)} header="Детали ингредиента">
-            <IngredientDetails item={selectedItem} />
-          </Modal>
-        </>
+        <Modal onClick={() => setModal(false)} header="Детали ингредиента">
+          <IngredientDetails item={selectedItem} />
+        </Modal>
       )}
     </section>
   );

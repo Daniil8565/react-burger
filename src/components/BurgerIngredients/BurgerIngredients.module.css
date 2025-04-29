@@ -6,6 +6,10 @@
   flex-direction: column;
 }
 
+.tab {
+  display: flex;
+}
+
 .content {
   padding-top: 16px;
   overflow-y: auto;

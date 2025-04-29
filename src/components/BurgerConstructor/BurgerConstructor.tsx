@@ -30,18 +30,10 @@ const BurgerConstructor = () => {
         <div className={styles.ScrollableIngredients}>
           {dataArray.map((item, index) => {
             return (
-              <div
-                key={index}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '10px',
-                }}
-              >
+              <div key={index} className={styles.burgerList}>
                 <div className={styles.burgerItem}>
                   <DragIcon type="primary" />
                   <ConstructorElement
-                    type="bottom"
                     isLocked={item.type === 'bun' ? true : false}
                     text={item.name}
                     price={item.price}
@@ -77,11 +69,9 @@ const BurgerConstructor = () => {
         </Button>
       </div>
       {modal && (
-        <>
-          <Modal onClick={() => setModal(false)}>
-            <OrderDetails />
-          </Modal>
-        </>
+        <Modal onClick={() => setModal(false)}>
+          <OrderDetails />
+        </Modal>
       )}
     </section>
   );
