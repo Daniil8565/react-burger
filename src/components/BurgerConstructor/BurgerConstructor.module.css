@@ -1,0 +1,72 @@
+.BurgerConstructor {
+  width: 100%;
+}
+
+.container__price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  margin-right: 22px;
+}
+
+img {
+  width: 80px;
+  height: 40px;
+}
+
+.burgerList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.buttonAndPrice {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.burgerItem {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.priceAndIcon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ListBurgerWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.Bun {
+  padding-left: 45px;
+  flex-shrink: 0;
+}
+
+.ScrollableIngredients {
+  max-height: calc(100vh - 550px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ScrollableIngredients::-webkit-scrollbar {
+  width: 6px;
+}
+.ScrollableIngredients::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+  border-radius: 4px;
+}
+.ScrollableIngredients::-webkit-scrollbar-track {
+  background: transparent;
+}
