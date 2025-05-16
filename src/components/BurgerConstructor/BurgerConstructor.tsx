@@ -78,12 +78,3 @@ const BurgerConstructor = () => {
 };
 
 export default BurgerConstructor;
-// <div className={styles.itemBurger} key={index}>
-//   <img src={item.image} alt={item.name} />
-//   <p>{item.name}</p>
-//   <div className={styles.container__price}>
-//     {item.price}
-//     <CurrencyIcon type="primary" />
-//   </div>
-//   <LockIcon type="primary" />
-// </div>
