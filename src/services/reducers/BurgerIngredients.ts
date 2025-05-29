@@ -1,4 +1,3 @@
-import { API_URL } from '../../constant';
 import { BurgerActionTypes, BurgerAction } from '../../types/BurgerIngrediend';
 import { IinitialStateBurgerIngredients } from '../../types/BurgerIngrediend';
 

@@ -9,15 +9,43 @@ import { dataArray } from '../../utils/data';
 import styles from './BurgerConstructor.module.css';
 import Logo from '../../images/bun-02.png';
 import Modal from '../Modal/Modal';
-import ModalOverlay from '../ModalOverlay/ModalOverlay';
+import { useDrop } from 'react-dnd';
 import OrderDetails from '../OrderDetails/OrderDetails';
+import { UPDATE_TYPE } from '../../services/actions/BurgerConstructor';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 const BurgerConstructor = () => {
   const [modal, setModal] = React.useState(false);
+  const dispatch = useDispatch();
+  const { ingredients } = useTypedSelector(
+    (state) => state.BurgerConstructorReducer
+  );
+
+  const [, dropTarget] = useDrop({
+    accept: 'Ingredient',
+    drop(item) {
+      console.log('Item dropped:', item);
+      dispatch({
+        type: UPDATE_TYPE,
+        item, // Или item._id, если нужно только id
+      });
+    },
+  });
+
+  const ref: unknown = dropTarget;
+
   return (
     <section className={styles.BurgerConstructor}>
-      <div className={styles.ListBurgerWrapper}>
-        <div className={styles.Bun}>
+      <div
+        className={styles.ListBurgerWrapper}
+        ref={ref as React.Ref<HTMLDivElement> | undefined}
+      >
+        {ingredients.map((ingredient) => {
+          console.log(ingredient);
+          return ingredient.name;
+        })}
+        {/* <div className={styles.Bun}>
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -52,7 +80,7 @@ const BurgerConstructor = () => {
             price={200}
             thumbnail={Logo}
           />
-        </div>
+        </div> */}
       </div>
       <div className={styles.buttonAndPrice}>
         <div className={styles.priceAndIcon}>

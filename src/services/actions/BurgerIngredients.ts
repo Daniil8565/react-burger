@@ -9,7 +9,6 @@ export function getBurgerIngredients() {
     });
     fetch(API_URL)
       .then((res) => {
-        console.log(res);
         if (res.ok) {
           return res.json();
         } else {
@@ -20,7 +19,6 @@ export function getBurgerIngredients() {
         }
       })
       .then((data) => {
-        console.log(data.data);
         dispatch({
           type: BurgerActionTypes.SUCCESS,
           payload: data.data,

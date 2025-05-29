@@ -44,6 +44,7 @@ img {
 .ListBurgerWrapper {
   display: flex;
   flex-direction: column;
+  height: 200px;
   gap: 20px;
 }
 

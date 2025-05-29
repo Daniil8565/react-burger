@@ -5,8 +5,9 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Idata } from '../../types/BurgerIngrediend';
 import Modal from '../Modal/Modal';
-import ModalOverlay from '../ModalOverlay/ModalOverlay';
+import { useDrag } from 'react-dnd';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import { DraggableIngredient } from '../DraggableIngredient/DraggableIngredient';
 
 const CATEGORIES = [
   { label: 'Булки', type: 'bun' },
@@ -77,26 +78,14 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
               {data
                 .filter((item) => item.type === cat.type)
                 .map((item, idx) => (
-                  <div
+                  <DraggableIngredient
                     key={item._id}
-                    className={styles.BurgerItem}
+                    item={item}
                     onClick={() => {
                       setSelectedItem(item);
                       setModal(true);
                     }}
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className={styles.image}
-                    />
-                    <div className={styles.container__price}>
-                      <p>{item.price}</p>
-                      <CurrencyIcon type="primary" />
-                    </div>
-                    <p>{item.name}</p>
-                    <Counter count={idx + 1} size="default" extraClass="m-1" />
-                  </div>
+                  />
                 ))}
             </div>
           </div>
