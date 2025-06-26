@@ -18,7 +18,7 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 const BurgerConstructor = () => {
   const [modal, setModal] = React.useState(false);
   const dispatch = useDispatch();
-  const { ingredients } = useTypedSelector(
+  const { bun, ingredients } = useTypedSelector(
     (state) => state.BurgerConstructorReducer
   );
 
@@ -28,7 +28,7 @@ const BurgerConstructor = () => {
       console.log('Item dropped:', item);
       dispatch({
         type: UPDATE_TYPE,
-        item, // Или item._id, если нужно только id
+        item,
       });
     },
   });
@@ -41,47 +41,48 @@ const BurgerConstructor = () => {
         className={styles.ListBurgerWrapper}
         ref={ref as React.Ref<HTMLDivElement> | undefined}
       >
-        {ingredients.map((ingredient) => {
-          console.log(ingredient);
-          return ingredient.name;
-        })}
-        {/* <div className={styles.Bun}>
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-            thumbnail={Logo}
-          />
+        {/* Верхняя булка */}
+        {bun && (
+          <div className={styles.Bun}>
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={`${bun.name} (верх)`}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+          </div>
+        )}
+
+        {/* Начинки */}
+        <div className={styles.ScrollableIngredients}>
+          {ingredients.map((ingredient, index) => (
+            <div key={index} className={styles.burgerItem}>
+              <DragIcon type="primary" />
+              <ConstructorElement
+                text={ingredient.name}
+                price={ingredient.price}
+                thumbnail={ingredient.image}
+              />
+            </div>
+          ))}
         </div>
 
-        <div className={styles.ScrollableIngredients}>
-          {dataArray.map((item, index) => {
-            return (
-              <div key={index} className={styles.burgerList}>
-                <div className={styles.burgerItem}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                    isLocked={item.type === 'bun' ? true : false}
-                    text={item.name}
-                    price={item.price}
-                    thumbnail={item.image}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <div className={styles.Bun}>
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text="Краторная булка N-200i (низ)"
-            price={200}
-            thumbnail={Logo}
-          />
-        </div> */}
+        {/* Нижняя булка */}
+        {bun && (
+          <div className={styles.Bun}>
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={`${bun.name} (низ)`}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+          </div>
+        )}
       </div>
+
+      {/* Кнопка и цена */}
       <div className={styles.buttonAndPrice}>
         <div className={styles.priceAndIcon}>
           <p className="text text_type_main-medium">610</p>
@@ -96,6 +97,8 @@ const BurgerConstructor = () => {
           Оформить заказ
         </Button>
       </div>
+
+      {/* Модалка */}
       {modal && (
         <Modal onClick={() => setModal(false)}>
           <OrderDetails />

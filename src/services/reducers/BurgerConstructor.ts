@@ -3,10 +3,12 @@ import { IAction } from '../../types/BurgerConstructor';
 import { Idata } from '../../types/BurgerIngrediend';
 
 type State = {
+  bun: Idata | null;
   ingredients: Idata[];
 };
 
 const initialState: State = {
+  bun: null,
   ingredients: [],
 };
 
@@ -16,6 +18,12 @@ export const BurgerConstructorReducer = (
 ) => {
   switch (action.type) {
     case UPDATE_TYPE:
+      if (action.item.type === 'bun') {
+        return {
+          ...state,
+          bun: { ...action.item },
+        };
+      }
       return {
         ...state,
         ingredients: [...state.ingredients, { ...action.item }],
