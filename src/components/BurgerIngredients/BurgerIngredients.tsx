@@ -8,6 +8,17 @@ import Modal from '../Modal/Modal';
 import { useDrag } from 'react-dnd';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { DraggableIngredient } from '../DraggableIngredient/DraggableIngredient';
+import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+// import {
+//   setIngredientDetails,
+//   clearIngredientDetails,
+// } from '../../services/actions/IngredientDetails';
+
+import {
+  setIngredientDetails,
+  clearIngredientDetails,
+} from '../../types/IngredientDetails';
 
 const CATEGORIES = [
   { label: 'Булки', type: 'bun' },
@@ -65,7 +76,11 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
     }
   };
 
-  const [selectedItem, setSelectedItem] = useState<Idata | null>(null);
+  // const [selectedItem, setSelectedItem] = useState<Idata | null>(null);
+  const dispatch = useDispatch();
+  const selectedItem = useTypedSelector(
+    (state) => state.IngredientDetailsReducer.selectedIngredient
+  );
 
   return (
     <section className={styles.container}>
@@ -82,7 +97,10 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
                     key={item._id}
                     item={item}
                     onClick={() => {
-                      setSelectedItem(item);
+                      dispatch({
+                        type: 'SET_INGREDIENT_DETAILS',
+                        payload: item,
+                      });
                       setModal(true);
                     }}
                   />
@@ -92,7 +110,13 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
         ))}
       </div>
       {modal && selectedItem && (
-        <Modal onClick={() => setModal(false)} header="Детали ингредиента">
+        <Modal
+          onClick={() => {
+            setModal(false);
+            dispatch({ type: 'CLEAR_INGREDIENT_DETAILS' });
+          }}
+          header="Детали ингредиента"
+        >
           <IngredientDetails item={selectedItem} />
         </Modal>
       )}

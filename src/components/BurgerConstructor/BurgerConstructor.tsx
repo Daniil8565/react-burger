@@ -11,7 +11,10 @@ import Logo from '../../images/bun-02.png';
 import Modal from '../Modal/Modal';
 import { useDrop } from 'react-dnd';
 import OrderDetails from '../OrderDetails/OrderDetails';
-import { UPDATE_TYPE } from '../../services/actions/BurgerConstructor';
+import {
+  UPDATE_TYPE,
+  DELETE_INGREDIENT,
+} from '../../services/actions/BurgerConstructor';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 
@@ -33,6 +36,15 @@ const BurgerConstructor = () => {
     },
   });
 
+  const totalPrice = React.useMemo(() => {
+    const bunPrice = bun ? bun.price * 2 : 0;
+    const ingredientsPrice = ingredients.reduce(
+      (sum, item) => sum + item.price,
+      0
+    );
+    return bunPrice + ingredientsPrice;
+  }, [bun, ingredients]);
+
   const ref: unknown = dropTarget;
 
   return (
@@ -42,7 +54,7 @@ const BurgerConstructor = () => {
         ref={ref as React.Ref<HTMLDivElement> | undefined}
       >
         {/* Верхняя булка */}
-        {bun && (
+        {bun ? (
           <div className={styles.Bun}>
             <ConstructorElement
               type="top"
@@ -52,9 +64,12 @@ const BurgerConstructor = () => {
               thumbnail={bun.image}
             />
           </div>
+        ) : (
+          <div className={styles.placeholder}>
+            Перетащите сюда булку для начала сборки 🍔
+          </div>
         )}
 
-        {/* Начинки */}
         <div className={styles.ScrollableIngredients}>
           {ingredients.map((ingredient, index) => (
             <div key={index} className={styles.burgerItem}>
@@ -63,6 +78,7 @@ const BurgerConstructor = () => {
                 text={ingredient.name}
                 price={ingredient.price}
                 thumbnail={ingredient.image}
+                handleClose={() => dispatch({ type: DELETE_INGREDIENT, index })}
               />
             </div>
           ))}
@@ -85,7 +101,7 @@ const BurgerConstructor = () => {
       {/* Кнопка и цена */}
       <div className={styles.buttonAndPrice}>
         <div className={styles.priceAndIcon}>
-          <p className="text text_type_main-medium">610</p>
+          <p className="text text_type_main-medium">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button

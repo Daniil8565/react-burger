@@ -1,1 +1,2 @@
 export const UPDATE_TYPE = 'UPDATE_TYPE';
+export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';

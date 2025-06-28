@@ -54,6 +54,22 @@ img {
   flex-shrink: 0;
 }
 
+.placeholder {
+  text-align: center;
+  padding: 20px;
+  color: gray;
+  border: 2px dashed gray;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.placeholderSmall {
+  text-align: center;
+  padding: 10px;
+  color: lightgray;
+  font-size: 14px;
+}
+
 .ScrollableIngredients {
   max-height: calc(100vh - 550px);
   overflow-y: auto;

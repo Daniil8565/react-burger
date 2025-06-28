@@ -1,4 +1,4 @@
-import { UPDATE_TYPE } from '../actions/BurgerConstructor';
+import { UPDATE_TYPE, DELETE_INGREDIENT } from '../actions/BurgerConstructor';
 import { IAction } from '../../types/BurgerConstructor';
 import { Idata } from '../../types/BurgerIngrediend';
 
@@ -28,6 +28,16 @@ export const BurgerConstructorReducer = (
         ...state,
         ingredients: [...state.ingredients, { ...action.item }],
       };
+
+    case DELETE_INGREDIENT:
+      console.log('delete');
+      return {
+        ...state,
+        ingredients: state.ingredients.filter(
+          (_, index) => index !== action.index
+        ),
+      };
+
     default:
       return state;
   }
