@@ -1,24 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerIngredients.module.css';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Idata } from '../../types/BurgerIngrediend';
 import Modal from '../Modal/Modal';
-import { useDrag } from 'react-dnd';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { DraggableIngredient } from '../DraggableIngredient/DraggableIngredient';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-// import {
-//   setIngredientDetails,
-//   clearIngredientDetails,
-// } from '../../services/actions/IngredientDetails';
-
-import {
-  setIngredientDetails,
-  clearIngredientDetails,
-} from '../../types/IngredientDetails';
 
 const CATEGORIES = [
   { label: 'Булки', type: 'bun' },
@@ -76,7 +64,6 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
     }
   };
 
-  // const [selectedItem, setSelectedItem] = useState<Idata | null>(null);
   const dispatch = useDispatch();
   const selectedItem = useTypedSelector(
     (state) => state.IngredientDetailsReducer.selectedIngredient

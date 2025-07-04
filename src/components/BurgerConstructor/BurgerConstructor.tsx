@@ -1,13 +1,9 @@
 import React from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { LockIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { DeleteIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { dataArray } from '../../utils/data';
 import styles from './BurgerConstructor.module.css';
-import Logo from '../../images/bun-02.png';
 import Modal from '../Modal/Modal';
 import { useDrop } from 'react-dnd';
 import OrderDetails from '../OrderDetails/OrderDetails';
@@ -15,8 +11,10 @@ import {
   UPDATE_TYPE,
   DELETE_INGREDIENT,
 } from '../../services/actions/BurgerConstructor';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useActions } from '../../hooks/useAction';
+import SortableIngredient from '../SortableIngredient/SortableIngredient';
 
 const BurgerConstructor = () => {
   const [modal, setModal] = React.useState(false);
@@ -24,6 +22,8 @@ const BurgerConstructor = () => {
   const { bun, ingredients } = useTypedSelector(
     (state) => state.BurgerConstructorReducer
   );
+
+  const { sendOrder } = useActions();
 
   const [, dropTarget] = useDrop({
     accept: 'Ingredient',
@@ -72,15 +72,11 @@ const BurgerConstructor = () => {
 
         <div className={styles.ScrollableIngredients}>
           {ingredients.map((ingredient, index) => (
-            <div key={index} className={styles.burgerItem}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-                handleClose={() => dispatch({ type: DELETE_INGREDIENT, index })}
-              />
-            </div>
+            <SortableIngredient
+              key={index}
+              ingredient={ingredient}
+              index={index}
+            />
           ))}
         </div>
 
@@ -108,7 +104,18 @@ const BurgerConstructor = () => {
           htmlType="button"
           type="primary"
           size="medium"
-          onClick={() => setModal(!modal)}
+          onClick={() => {
+            if (!bun) return;
+
+            const ingredientsIds = [
+              bun._id,
+              ...ingredients.map((item) => item._id),
+              bun._id,
+            ];
+
+            sendOrder(ingredientsIds);
+            setModal(true);
+          }}
         >
           Оформить заказ
         </Button>

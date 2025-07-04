@@ -1,4 +1,8 @@
-import { UPDATE_TYPE, DELETE_INGREDIENT } from '../actions/BurgerConstructor';
+import {
+  UPDATE_TYPE,
+  DELETE_INGREDIENT,
+  MOVE_INGREDIENT,
+} from '../actions/BurgerConstructor';
 import { IAction } from '../../types/BurgerConstructor';
 import { Idata } from '../../types/BurgerIngrediend';
 
@@ -37,6 +41,16 @@ export const BurgerConstructorReducer = (
           (_, index) => index !== action.index
         ),
       };
+
+    case MOVE_INGREDIENT: {
+      const updatedIngredients = [...state.ingredients];
+      const [removed] = updatedIngredients.splice(action.dragIndex, 1);
+      updatedIngredients.splice(action.hoverIndex, 0, removed);
+      return {
+        ...state,
+        ingredients: updatedIngredients,
+      };
+    }
 
     default:
       return state;
