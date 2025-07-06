@@ -17,7 +17,7 @@ const CATEGORIES = [
 type Category = (typeof CATEGORIES)[number]['type'];
 
 type BurgerIngredientsProps = {
-  data: Idata[];
+  ingredientCounts: Record<string, number>;
 };
 
 type TabSwitchProps = {
@@ -41,12 +41,17 @@ const TabSwitch: React.FC<TabSwitchProps> = ({ current, onChange }) => {
   );
 };
 
-const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
+const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({
+  ingredientCounts,
+}) => {
   const [currentTab, setCurrentTab] = React.useState('Булки');
   const bunRef = useRef<HTMLDivElement>(null!);
   const sauceRef = useRef<HTMLDivElement>(null!);
   const mainRef = useRef<HTMLDivElement>(null!);
   const [modal, setModal] = useState(false);
+  const data = useTypedSelector(
+    (state) => state.BurgerIngredientsReducers.data
+  );
 
   const sectionRefs: Record<Category, React.RefObject<HTMLDivElement> | null> =
     {
@@ -77,12 +82,13 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
           <div key={index} ref={sectionRefs[cat.type]}>
             <p className="text text_type_main-medium">{cat.label}</p>
             <div className={styles.ListBurger}>
-              {data
+              {data!
                 .filter((item) => item.type === cat.type)
                 .map((item, idx) => (
                   <DraggableIngredient
                     key={item._id}
                     item={item}
+                    count={ingredientCounts[item._id] || 0}
                     onClick={() => {
                       dispatch({
                         type: 'SET_INGREDIENT_DETAILS',

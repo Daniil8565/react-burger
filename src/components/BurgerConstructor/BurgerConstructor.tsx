@@ -15,8 +15,16 @@ import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useAction';
 import SortableIngredient from '../SortableIngredient/SortableIngredient';
+import { Idata } from '../../types/BurgerIngrediend';
+import { v4 as uuidv4 } from 'uuid';
 
-const BurgerConstructor = () => {
+const BurgerConstructor = ({
+  setIngredientCounts,
+}: {
+  setIngredientCounts: React.Dispatch<
+    React.SetStateAction<Record<string, number>>
+  >;
+}) => {
   const [modal, setModal] = React.useState(false);
   const dispatch = useDispatch();
   const { bun, ingredients } = useTypedSelector(
@@ -27,14 +35,30 @@ const BurgerConstructor = () => {
 
   const [, dropTarget] = useDrop({
     accept: 'Ingredient',
-    drop(item) {
-      console.log('Item dropped:', item);
-      dispatch({
-        type: UPDATE_TYPE,
-        item,
+    drop(item: Idata) {
+      dispatch({ type: UPDATE_TYPE, item: { ...item, uuid: uuidv4() } });
+
+      setIngredientCounts((prev) => {
+        if (item.type === 'bun') return prev;
+
+        return {
+          ...prev,
+          [item._id]: (prev[item._id] || 0) + 1,
+        };
       });
     },
   });
+
+  const handleRemoveIngredient = (id: string) => {
+    setIngredientCounts((prev) => {
+      const current = prev[id];
+      if (!current || current <= 1) {
+        const { [id]: _, ...rest } = prev; // удаляем ключ
+        return rest;
+      }
+      return { ...prev, [id]: current - 1 };
+    });
+  };
 
   const totalPrice = React.useMemo(() => {
     const bunPrice = bun ? bun.price * 2 : 0;
@@ -71,11 +95,20 @@ const BurgerConstructor = () => {
         )}
 
         <div className={styles.ScrollableIngredients}>
-          {ingredients.map((ingredient, index) => (
+          {/* {ingredients.map((ingredient, index) => (
             <SortableIngredient
               key={index}
               ingredient={ingredient}
               index={index}
+              onRemove={() => handleRemoveIngredient(ingredient._id)}
+            />
+          ))} */}
+          {ingredients.map((ingredient, index) => (
+            <SortableIngredient
+              key={ingredient._id}
+              ingredient={ingredient}
+              index={index}
+              onRemove={() => handleRemoveIngredient(ingredient._id)}
             />
           ))}
         </div>

@@ -6,9 +6,11 @@ import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export const DraggableIngredient = ({
   item,
+  count,
   onClick,
 }: {
   item: Idata;
+  count: number;
   onClick: () => void;
 }) => {
   const [{ isDragging }, dragRef, preview] = useDrag({
@@ -33,7 +35,7 @@ export const DraggableIngredient = ({
           <CurrencyIcon type="primary" />
         </div>
         <p>{item.name}</p>
-        <Counter count={1} size="default" extraClass="m-1" />
+        {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
       </div>
     </>
   );

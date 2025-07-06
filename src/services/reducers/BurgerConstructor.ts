@@ -25,12 +25,12 @@ export const BurgerConstructorReducer = (
       if (action.item.type === 'bun') {
         return {
           ...state,
-          bun: { ...action.item },
+          bun: action.item,
         };
       }
       return {
         ...state,
-        ingredients: [...state.ingredients, { ...action.item }],
+        ingredients: [...state.ingredients, action.item],
       };
 
     case DELETE_INGREDIENT:

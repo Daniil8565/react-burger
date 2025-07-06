@@ -15,9 +15,14 @@ import styles from './SortableIngredient.module.css';
 type Props = {
   ingredient: Idata;
   index: number;
+  onRemove: () => void;
 };
 
-const SortableIngredient: React.FC<Props> = ({ ingredient, index }) => {
+const SortableIngredient: React.FC<Props> = ({
+  ingredient,
+  index,
+  onRemove,
+}) => {
   const dispatch = useDispatch();
   const ref = useRef<HTMLDivElement>(null);
 
@@ -55,7 +60,10 @@ const SortableIngredient: React.FC<Props> = ({ ingredient, index }) => {
         text={ingredient.name}
         price={ingredient.price}
         thumbnail={ingredient.image}
-        handleClose={() => dispatch({ type: DELETE_INGREDIENT, index })}
+        handleClose={() => {
+          dispatch({ type: DELETE_INGREDIENT, index });
+          onRemove();
+        }}
       />
     </div>
   );

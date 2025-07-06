@@ -7,12 +7,15 @@ import { useTypedSelector } from './hooks/useTypedSelector';
 import { useActions } from './hooks/useAction';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-
+import { useState } from 'react';
 function App() {
   const { data, loading, error } = useTypedSelector(
     (state) => state.BurgerIngredientsReducers
   );
   const { getBurgerIngredients } = useActions();
+  const [ingredientCounts, setIngredientCounts] = useState<
+    Record<string, number>
+  >({});
 
   useEffect(() => {
     getBurgerIngredients();
@@ -33,8 +36,8 @@ function App() {
         <h2 className="header">Соберите бургер</h2>
         <DndProvider backend={HTML5Backend}>
           <div className="mainBurger">
-            {data && <BurgerIngredients data={data} />}
-            <BurgerConstructor />
+            <BurgerIngredients ingredientCounts={ingredientCounts} />
+            <BurgerConstructor setIngredientCounts={setIngredientCounts} />
           </div>
         </DndProvider>
       </main>

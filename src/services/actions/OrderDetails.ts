@@ -13,6 +13,13 @@ export const sendOrder = (ingredientIds: string[]) => {
         body: JSON.stringify({ ingredients: ingredientIds }),
       });
 
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(
+          `Ошибка HTTP: ${res.status} ${res.statusText} - ${errorText}`
+        );
+      }
+
       const data = await res.json();
 
       if (data.success) {
@@ -21,7 +28,7 @@ export const sendOrder = (ingredientIds: string[]) => {
           payload: data.order.number,
         });
       } else {
-        dispatch({ type: OrderActionTypes.POST_ORDER_FAILED });
+        throw new Error('Ответ от сервера: success = false');
       }
     } catch (err) {
       console.error(err);
