@@ -1,46 +1,25 @@
-import { useEffect } from 'react';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AppHeader from './components/AppHeader/AppHeader';
-import BurgerIngredients from './components/BurgerIngredients/BurgerIngredients';
-import BurgerConstructor from './components/BurgerConstructor/BurgerConstructor';
-import { useTypedSelector } from './hooks/useTypedSelector';
-import { useActions } from './hooks/useAction';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useState } from 'react';
+import SigninPage from './pages/SigninPage/SigninPage';
+import CustomBurger from './pages/CustomBurger/CustomBurger';
+import SignupPage from './pages/SignupPage/SignupPage';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import ResetPassword from './pages/ResetPassword/ResetPassword';
+
 function App() {
-  const { data, loading, error } = useTypedSelector(
-    (state) => state.BurgerIngredientsReducers
-  );
-  const { getBurgerIngredients } = useActions();
-  const [ingredientCounts, setIngredientCounts] = useState<
-    Record<string, number>
-  >({});
-
-  useEffect(() => {
-    getBurgerIngredients();
-  }, []);
-
-  if (loading) {
-    return <p>Загрузка...</p>;
-  }
-
-  if (error) {
-    return <p>Произошла ошибка при загрузке данных</p>;
-  }
-
   return (
     <>
       <AppHeader />
-      <main>
-        <h2 className="header">Соберите бургер</h2>
-        <DndProvider backend={HTML5Backend}>
-          <div className="mainBurger">
-            <BurgerIngredients ingredientCounts={ingredientCounts} />
-            <BurgerConstructor setIngredientCounts={setIngredientCounts} />
-          </div>
-        </DndProvider>
-      </main>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<SigninPage />} />
+          <Route path="/" element={<CustomBurger />} />
+          <Route path="/register" element={<SignupPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+        </Routes>
+      </Router>
     </>
   );
 }
