@@ -15,7 +15,7 @@
 }
 
 .button {
-  width: 128px;
+  width: 200px;
   height: 56px;
   margin-left: auto;
   margin-right: auto;
@@ -32,4 +32,10 @@
   margin-left: auto;
   margin-right: auto;
   gap: 8px;
+}
+
+.error {
+  position: relative;
+  bottom: 37px;
+  left: 110px;
 }

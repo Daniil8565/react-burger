@@ -1,4 +1,3 @@
-// services/actions/BurgerIngredients.ts
 import { Dispatch } from 'redux';
 import { BurgerAction, BurgerActionTypes } from '../../types/BurgerIngrediend';
 import { request } from '../../utils/request';

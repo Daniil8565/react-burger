@@ -1,16 +1,12 @@
 import React from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerConstructor.module.css';
 import Modal from '../Modal/Modal';
 import { useDrop } from 'react-dnd';
 import OrderDetails from '../OrderDetails/OrderDetails';
-import {
-  UPDATE_TYPE,
-  DELETE_INGREDIENT,
-} from '../../services/actions/BurgerConstructor';
+import { UPDATE_TYPE } from '../../services/actions/BurgerConstructor';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useAction';
@@ -95,14 +91,6 @@ const BurgerConstructor = ({
         )}
 
         <div className={styles.ScrollableIngredients}>
-          {/* {ingredients.map((ingredient, index) => (
-            <SortableIngredient
-              key={index}
-              ingredient={ingredient}
-              index={index}
-              onRemove={() => handleRemoveIngredient(ingredient._id)}
-            />
-          ))} */}
           {ingredients.map((ingredient, index) => (
             <SortableIngredient
               key={ingredient._id}
