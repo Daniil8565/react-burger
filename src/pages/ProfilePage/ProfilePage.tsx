@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   PasswordInput,
   Input,
+  Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useNavigate } from 'react-router-dom';
 import styles from './ProfilePage.module.css';
@@ -10,15 +11,43 @@ import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../services/reducers/index';
 
 const ProfilePage = () => {
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [login, setLogin] = useState('');
   const [activeLink, setActiveLink] = useState('Профиль');
   const navigate = useNavigate();
-  const { logoutUser } = useActions();
+  const { logoutUser, updateUser } = useActions();
   const { user } = useTypedSelector((state: RootState) => state.userReducer);
+  const [isChanged, setIsChanged] = useState(false);
 
-  function handleClick(
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+  useEffect(() => {
+    console.log('User from store:', user);
+    if (user) {
+      setForm({
+        name: user.name,
+        email: user.email,
+        password: '',
+      });
+    }
+  }, [user]);
+
+  // Обработка изменения полей
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    const newForm = { ...form, [name]: value };
+
+    setForm(newForm);
+    setIsChanged(
+      newForm.name !== user.name ||
+        newForm.email !== user.email ||
+        newForm.password !== ''
+    );
+  };
+
+  async function handleClick(
     e: React.MouseEvent<HTMLParagraphElement>,
     path: string
   ) {
@@ -29,7 +58,7 @@ const ProfilePage = () => {
 
     if (linkText === 'Выход') {
       try {
-        logoutUser();
+        await logoutUser();
         navigate('/login', { replace: true });
       } catch (err) {
         console.error('Ошибка выхода:', err);
@@ -38,6 +67,24 @@ const ProfilePage = () => {
       navigate(path, { replace: true });
     }
   }
+
+  // Сохранение изменений
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateUser(form.name, form.email, form.password || undefined);
+    setIsChanged(false);
+    setForm({ ...form, password: '' }); // очищаем пароль
+  };
+
+  // Отмена изменений
+  const handleCancel = () => {
+    setForm({
+      name: user.name,
+      email: user.email,
+      password: '',
+    });
+    setIsChanged(false);
+  };
 
   return (
     <div className={styles.container}>
@@ -68,36 +115,51 @@ const ProfilePage = () => {
             Выход
           </p>
         </div>
-        <div className={styles.containerInput}>
+        <form className={styles.containerInput} onSubmit={handleSave}>
           <Input
             type="text"
             placeholder="Имя"
-            onChange={(e) => setName(e.target.value)}
-            value={user.name}
-            name="firstName"
+            onChange={handleChange}
+            value={form.name}
+            name="name"
             error={false}
-            errorText="Ошибка"
             size="default"
             extraClass="mt-6 mb-6"
           />
           <Input
-            type="text"
-            placeholder="Логин"
-            onChange={(e) => setLogin(e.target.value)}
-            value={user.email}
-            name="login"
+            type="email"
+            placeholder="Email"
+            onChange={handleChange}
+            value={form.email}
+            name="email"
             error={false}
-            errorText="Ошибка"
             size="default"
             extraClass="mt-6 mb-6"
           />
           <PasswordInput
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
+            onChange={handleChange}
+            value={form.password}
+            autoComplete="new-password"
             name="password"
-            extraClass="mt-6"
+            extraClass="mt-6 mb-6"
           />
-        </div>
+
+          {isChanged && (
+            <div className={styles.buttonGroup}>
+              <Button
+                htmlType="button"
+                type="secondary"
+                size="medium"
+                onClick={handleCancel}
+              >
+                Отмена
+              </Button>
+              <Button htmlType="submit" type="primary" size="medium">
+                Сохранить
+              </Button>
+            </div>
+          )}
+        </form>
       </div>
     </div>
   );

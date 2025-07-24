@@ -3,15 +3,19 @@ import {
   Button,
   EmailInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { request } from '../../utils/request'; // путь поправь под свою структуру
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './ForgotPassword.module.css';
+import { useSelector } from 'react-redux';
+import { useActions } from '../../hooks/useAction';
 
 const ForgotPassword = () => {
-  const [valueEmail, setValueEmail] = React.useState('');
-  const [error, setError] = useState('');
+  const [valueEmail, setValueEmail] = useState('');
   const navigate = useNavigate();
+  const { sendForgotEmail } = useActions();
+
+  const { success, error, isLoading } = useSelector(
+    (state: any) => state.forgotPasswordReducer
+  );
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValueEmail(e.target.value);
@@ -19,17 +23,11 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    await sendForgotEmail(valueEmail);
 
-    try {
-      await request('password-reset', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: valueEmail }),
-      });
-
+    // После успешной отправки переходим к reset-password
+    if (success) {
       navigate('/reset-password');
-    } catch (err) {
-      setError(`Ошибка: ${err}`);
     }
   };
 
@@ -52,6 +50,7 @@ const ForgotPassword = () => {
           size="small"
           extraClass={`${styles.button} mb-20`}
           onClick={handleSubmit}
+          disabled={isLoading}
         >
           Восстановить
         </Button>
@@ -63,7 +62,11 @@ const ForgotPassword = () => {
             Войти
           </Link>
         </div>
-        {error && <p className="text-red-600">{error}</p>}
+        {error && (
+          <p className="text text_type_main-default text_color_error">
+            {error}
+          </p>
+        )}
       </div>
     </div>
   );

@@ -51,7 +51,7 @@ export const registerUser = (email: string, password: string, name: string) => {
 export const loginUser = (email: string, password: string) => {
   return async (dispatch: Dispatch<AuthActionTypes>) => {
     dispatch({ type: LOGIN_REQUEST });
-
+    console.log('Пользователь зашёл в аккаунта');
     try {
       const data = await request('auth/login', {
         method: 'POST',
@@ -60,7 +60,7 @@ export const loginUser = (email: string, password: string) => {
       });
 
       saveRefreshToken(data.refreshToken);
-
+      console.log('Пользователь зашёл в аккаунта');
       dispatch({
         type: LOGIN_SUCCESS,
         payload: { user: data.user, accessToken: data.accessToken },
@@ -84,7 +84,7 @@ export const logoutUser = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token: refreshToken }),
       });
-
+      console.log('Пользователь вышел с аккаунта');
       removeRefreshToken();
       dispatch({ type: LOGOUT_SUCCESS });
     } catch (error: any) {

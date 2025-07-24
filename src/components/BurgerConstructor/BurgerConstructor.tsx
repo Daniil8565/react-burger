@@ -13,6 +13,7 @@ import { useActions } from '../../hooks/useAction';
 import SortableIngredient from '../SortableIngredient/SortableIngredient';
 import { Idata } from '../../types/BurgerIngrediend';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = ({
   setIngredientCounts,
@@ -25,6 +26,11 @@ const BurgerConstructor = ({
   const dispatch = useDispatch();
   const { bun, ingredients } = useTypedSelector(
     (state) => state.BurgerConstructorReducer
+  );
+  const navigate = useNavigate();
+
+  const isAuthenticated = useTypedSelector(
+    (state) => state.authReducer.isAuthenticated
   );
 
   const { sendOrder } = useActions();
@@ -127,6 +133,11 @@ const BurgerConstructor = ({
           size="medium"
           onClick={() => {
             if (!bun) return;
+
+            if (!isAuthenticated) {
+              navigate('/login', { replace: true });
+              return;
+            }
 
             const ingredientsIds = [
               bun._id,

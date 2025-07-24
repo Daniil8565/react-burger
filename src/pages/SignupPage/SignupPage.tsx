@@ -22,9 +22,15 @@ const SignupPage = () => {
     (state: RootState) => state.authReducer
   );
 
-  const onRegisterClick = () => {
+  const onRegisterClick = async () => {
     if (name && email && password) {
-      registerUser(email, password, name);
+      try {
+        await registerUser(email, password, name);
+        await fetchUser();
+        navigate('/');
+      } catch (error) {
+        console.error('Ошибка при регистрации:', error);
+      }
     }
   };
 

@@ -6,29 +6,29 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './ResetPassword.module.css';
-import { request } from '../../utils/request'; // путь подкорректируй под свой проект
+import { useSelector } from 'react-redux';
+import { useActions } from '../../hooks/useAction';
+import { RootState } from '../../services/reducers';
 
 const ResetPassword = () => {
   const navigate = useNavigate();
 
   const [password, setPassword] = React.useState('');
   const [token, setToken] = React.useState('');
-  const [error, setError] = React.useState('');
+  const { resetPassword } = useActions();
 
-  const handleSubmit = async () => {
-    try {
-      await request('password-reset/reset', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password, token }),
-      });
+  const { isLoading, error, success } = useSelector(
+    (state: RootState) => state.resetPasswordReducer
+  );
+
+  React.useEffect(() => {
+    if (success) {
       navigate('/login');
-    } catch (err) {
-      setError(
-        'Ошибка при сбросе пароля. Проверьте данные и попробуйте снова.'
-      );
-      console.error(err);
     }
+  }, [success, navigate]);
+
+  const handleSubmit = () => {
+    resetPassword(password, token);
   };
 
   return (
@@ -43,6 +43,7 @@ const ResetPassword = () => {
           value={password}
           name="password"
           extraClass="mt-6"
+          disabled={isLoading}
         />
 
         <Input
@@ -51,10 +52,11 @@ const ResetPassword = () => {
           onChange={(e) => setToken(e.target.value)}
           value={token}
           name="token"
-          error={false}
+          error={!!error}
           errorText="Ошибка"
           size="default"
           extraClass="mt-6 mb-6"
+          disabled={isLoading}
         />
 
         <Button
@@ -63,8 +65,9 @@ const ResetPassword = () => {
           size="medium"
           extraClass={`${styles.button} ml-2 mb-20`}
           onClick={handleSubmit}
+          disabled={isLoading}
         >
-          Сохранить
+          {isLoading ? 'Загрузка...' : 'Сохранить'}
         </Button>
 
         {error && (

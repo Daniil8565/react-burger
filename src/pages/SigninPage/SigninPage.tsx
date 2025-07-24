@@ -33,8 +33,13 @@ const SigninPage = () => {
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValuePassword(e.target.value);
 
-  const onLoginClick = () => {
-    loginUser(valueEmail, valuePassword);
+  const onLoginClick = async () => {
+    try {
+      await loginUser(valueEmail, valuePassword);
+      await fetchUser();
+    } catch (err) {
+      console.error('Ошибка при входе или получении пользователя:', err);
+    }
   };
 
   return (

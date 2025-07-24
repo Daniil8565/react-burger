@@ -52,7 +52,12 @@ export const authReducer = (
 
     case LOGOUT_SUCCESS:
       return {
-        ...initialState,
+        ...state,
+        user: null,
+        accessToken: null,
+        isAuthenticated: false,
+        isLoading: false,
+        error: null,
       };
 
     case REFRESH_TOKEN_SUCCESS:
