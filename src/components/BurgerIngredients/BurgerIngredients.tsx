@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerIngredients.module.css';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Idata } from '../../constant';
+import { Idata } from '../../types/BurgerIngrediend';
 import Modal from '../Modal/Modal';
-import ModalOverlay from '../ModalOverlay/ModalOverlay';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import { DraggableIngredient } from '../DraggableIngredient/DraggableIngredient';
+import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 const CATEGORIES = [
   { label: 'Булки', type: 'bun' },
@@ -17,7 +17,7 @@ const CATEGORIES = [
 type Category = (typeof CATEGORIES)[number]['type'];
 
 type BurgerIngredientsProps = {
-  data: Idata[];
+  ingredientCounts: Record<string, number>;
 };
 
 type TabSwitchProps = {
@@ -41,12 +41,17 @@ const TabSwitch: React.FC<TabSwitchProps> = ({ current, onChange }) => {
   );
 };
 
-const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
+const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({
+  ingredientCounts,
+}) => {
   const [currentTab, setCurrentTab] = React.useState('Булки');
   const bunRef = useRef<HTMLDivElement>(null!);
   const sauceRef = useRef<HTMLDivElement>(null!);
   const mainRef = useRef<HTMLDivElement>(null!);
   const [modal, setModal] = useState(false);
+  const data = useTypedSelector(
+    (state) => state.BurgerIngredientsReducers.data
+  );
 
   const sectionRefs: Record<Category, React.RefObject<HTMLDivElement> | null> =
     {
@@ -64,7 +69,10 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
     }
   };
 
-  const [selectedItem, setSelectedItem] = useState<Idata | null>(null);
+  const dispatch = useDispatch();
+  const selectedItem = useTypedSelector(
+    (state) => state.IngredientDetailsReducer.selectedIngredient
+  );
 
   return (
     <section className={styles.container}>
@@ -74,36 +82,34 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({ data }) => {
           <div key={index} ref={sectionRefs[cat.type]}>
             <p className="text text_type_main-medium">{cat.label}</p>
             <div className={styles.ListBurger}>
-              {data
+              {data!
                 .filter((item) => item.type === cat.type)
                 .map((item, idx) => (
-                  <div
+                  <DraggableIngredient
                     key={item._id}
-                    className={styles.BurgerItem}
+                    item={item}
+                    count={ingredientCounts[item._id] || 0}
                     onClick={() => {
-                      setSelectedItem(item);
+                      dispatch({
+                        type: 'SET_INGREDIENT_DETAILS',
+                        payload: item,
+                      });
                       setModal(true);
                     }}
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className={styles.image}
-                    />
-                    <div className={styles.container__price}>
-                      <p>{item.price}</p>
-                      <CurrencyIcon type="primary" />
-                    </div>
-                    <p>{item.name}</p>
-                    <Counter count={idx + 1} size="default" extraClass="m-1" />
-                  </div>
+                  />
                 ))}
             </div>
           </div>
         ))}
       </div>
       {modal && selectedItem && (
-        <Modal onClick={() => setModal(false)} header="Детали ингредиента">
+        <Modal
+          onClick={() => {
+            setModal(false);
+            dispatch({ type: 'CLEAR_INGREDIENT_DETAILS' });
+          }}
+          header="Детали ингредиента"
+        >
           <IngredientDetails item={selectedItem} />
         </Modal>
       )}

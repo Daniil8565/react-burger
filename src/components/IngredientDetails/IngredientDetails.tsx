@@ -1,5 +1,5 @@
 import React from 'react';
-import { Idata } from '../../constant';
+import { Idata } from '../../types/BurgerIngrediend';
 import styles from './IngredientDetails.module.css';
 
 type IngredientDetailsProps = {

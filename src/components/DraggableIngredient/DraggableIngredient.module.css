@@ -1,0 +1,26 @@
+.BurgerItem {
+  border-radius: 20px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.BurgerItem p {
+  margin: 0;
+}
+
+.image {
+  width: 240px;
+  height: 120px;
+}
+
+.container__price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}

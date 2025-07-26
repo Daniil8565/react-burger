@@ -1,58 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './App.css';
 import AppHeader from './components/AppHeader/AppHeader';
 import BurgerIngredients from './components/BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from './components/BurgerConstructor/BurgerConstructor';
-import { API_URL } from './constant';
-import { Idata } from './constant';
-
+import { useTypedSelector } from './hooks/useTypedSelector';
+import { useActions } from './hooks/useAction';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useState } from 'react';
 function App() {
-  const [state, setState] = useState<{
-    data: Idata[] | null;
-    loading: boolean;
-    error: boolean;
-  }>({
-    data: null,
-    loading: true,
-    error: false,
-  });
+  const { data, loading, error } = useTypedSelector(
+    (state) => state.BurgerIngredientsReducers
+  );
+  const { getBurgerIngredients } = useActions();
+  const [ingredientCounts, setIngredientCounts] = useState<
+    Record<string, number>
+  >({});
 
   useEffect(() => {
-    setState({ ...state, loading: true, error: false });
-
-    fetch(API_URL)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-      })
-      .then((data) => {
-        setState({ ...state, data: data.data, loading: false, error: false });
-      })
-      .catch(() => {
-        setState({ ...state, loading: false, error: true });
-      });
+    getBurgerIngredients();
   }, []);
 
-  if (state.loading) {
+  if (loading) {
     return <p>Загрузка...</p>;
   }
 
-  if (state.error) {
+  if (error) {
     return <p>Произошла ошибка при загрузке данных</p>;
   }
-  console.log(state.data);
 
   return (
     <>
       <AppHeader />
       <main>
         <h2 className="header">Соберите бургер</h2>
-        <div className="mainBurger">
-          {state.data && <BurgerIngredients data={state.data} />}
-          <BurgerConstructor />
-        </div>
+        <DndProvider backend={HTML5Backend}>
+          <div className="mainBurger">
+            <BurgerIngredients ingredientCounts={ingredientCounts} />
+            <BurgerConstructor setIngredientCounts={setIngredientCounts} />
+          </div>
+        </DndProvider>
       </main>
     </>
   );
