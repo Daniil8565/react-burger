@@ -1,4 +1,3 @@
-// services/actions/OrderDetails.ts
 import { Dispatch } from 'redux';
 import { OrderAction, OrderActionTypes } from '../../types/OrderDetails';
 import { request } from '../../utils/request';

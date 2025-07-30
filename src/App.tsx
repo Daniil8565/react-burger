@@ -1,46 +1,121 @@
-import { useEffect } from 'react';
+import React from 'react';
 import './App.css';
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  useNavigate,
+  Location,
+} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 import AppHeader from './components/AppHeader/AppHeader';
-import BurgerIngredients from './components/BurgerIngredients/BurgerIngredients';
-import BurgerConstructor from './components/BurgerConstructor/BurgerConstructor';
+import SigninPage from './pages/SigninPage/SigninPage';
+import CustomBurger from './pages/CustomBurger/CustomBurger';
+import SignupPage from './pages/SignupPage/SignupPage';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import ResetPassword from './pages/ResetPassword/ResetPassword';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
+import IngredientPage from './pages/IngredientPage/IngredientPage';
+import Modal from './components/Modal/Modal';
+import IngredientDetails from './components/IngredientDetails/IngredientDetails';
+
 import { useTypedSelector } from './hooks/useTypedSelector';
-import { useActions } from './hooks/useAction';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useState } from 'react';
+import ProtectedRouteElement from './components/ProtectedRouteElement/ProtectedRouteElement';
+import { RootState } from './services/reducers/index';
+
 function App() {
-  const { data, loading, error } = useTypedSelector(
-    (state) => state.BurgerIngredientsReducers
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const success = useTypedSelector(
+    (state: RootState) => state.forgotPasswordReducer.success
   );
-  const { getBurgerIngredients } = useActions();
-  const [ingredientCounts, setIngredientCounts] = useState<
-    Record<string, number>
-  >({});
+  const selectedItem = useTypedSelector(
+    (state: RootState) => state.IngredientDetailsReducer.selectedIngredient
+  );
 
-  useEffect(() => {
-    getBurgerIngredients();
-  }, []);
-
-  if (loading) {
-    return <p>Загрузка...</p>;
-  }
-
-  if (error) {
-    return <p>Произошла ошибка при загрузке данных</p>;
-  }
+  // Приводим тип location.state к объекту с возможным полем background (если есть)
+  const state = location.state as { background?: Location };
 
   return (
     <>
       <AppHeader />
-      <main>
-        <h2 className="header">Соберите бургер</h2>
-        <DndProvider backend={HTML5Backend}>
-          <div className="mainBurger">
-            <BurgerIngredients ingredientCounts={ingredientCounts} />
-            <BurgerConstructor setIngredientCounts={setIngredientCounts} />
-          </div>
-        </DndProvider>
-      </main>
+      <Routes location={state?.background || location}>
+        {/* Публичный маршрут */}
+        <Route path="/" element={<CustomBurger />} />
+
+        {/* Только для НЕавторизованных */}
+        <Route
+          path="/login"
+          element={
+            <ProtectedRouteElement onlyUnAuth>
+              <SigninPage />
+            </ProtectedRouteElement>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <ProtectedRouteElement onlyUnAuth>
+              <SignupPage />
+            </ProtectedRouteElement>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <ProtectedRouteElement onlyUnAuth>
+              <ForgotPassword />
+            </ProtectedRouteElement>
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <ProtectedRouteElement onlyUnAuth>
+              {success ? (
+                <ResetPassword />
+              ) : (
+                <Navigate to="/forgot-password" replace />
+              )}
+            </ProtectedRouteElement>
+          }
+        />
+
+        {/* Защищённый маршрут */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRouteElement>
+              <ProfilePage />
+            </ProtectedRouteElement>
+          }
+        />
+        <Route path="/ingredients/:id" element={<IngredientPage />} />
+      </Routes>
+
+      {/* Модалка поверх главной страницы */}
+      {state?.background && selectedItem && (
+        <Routes>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <Modal
+                onClick={() => {
+                  navigate(-1);
+                  dispatch({ type: 'CLEAR_INGREDIENT_DETAILS' });
+                }}
+                header="Детали ингредиента"
+              >
+                <IngredientDetails item={selectedItem} />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </>
   );
 }
