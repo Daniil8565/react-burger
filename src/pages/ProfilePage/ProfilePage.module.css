@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 1270px;
+  height: 60vh;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+.containerLink {
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  padding: 20px;
+}
+
+.link:hover {
+  cursor: pointer;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}

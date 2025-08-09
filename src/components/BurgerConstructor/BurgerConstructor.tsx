@@ -1,22 +1,19 @@
 import React from 'react';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerConstructor.module.css';
 import Modal from '../Modal/Modal';
 import { useDrop } from 'react-dnd';
 import OrderDetails from '../OrderDetails/OrderDetails';
-import {
-  UPDATE_TYPE,
-  DELETE_INGREDIENT,
-} from '../../services/actions/BurgerConstructor';
+import { UPDATE_TYPE } from '../../services/actions/BurgerConstructor';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useAction';
 import SortableIngredient from '../SortableIngredient/SortableIngredient';
 import { Idata } from '../../types/BurgerIngrediend';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = ({
   setIngredientCounts,
@@ -29,6 +26,11 @@ const BurgerConstructor = ({
   const dispatch = useDispatch();
   const { bun, ingredients } = useTypedSelector(
     (state) => state.BurgerConstructorReducer
+  );
+  const navigate = useNavigate();
+
+  const isAuthenticated = useTypedSelector(
+    (state) => state.authReducer.isAuthenticated
   );
 
   const { sendOrder } = useActions();
@@ -95,14 +97,6 @@ const BurgerConstructor = ({
         )}
 
         <div className={styles.ScrollableIngredients}>
-          {/* {ingredients.map((ingredient, index) => (
-            <SortableIngredient
-              key={index}
-              ingredient={ingredient}
-              index={index}
-              onRemove={() => handleRemoveIngredient(ingredient._id)}
-            />
-          ))} */}
           {ingredients.map((ingredient, index) => (
             <SortableIngredient
               key={ingredient._id}
@@ -139,6 +133,11 @@ const BurgerConstructor = ({
           size="medium"
           onClick={() => {
             if (!bun) return;
+
+            if (!isAuthenticated) {
+              navigate('/login', { replace: true });
+              return;
+            }
 
             const ingredientsIds = [
               bun._id,
