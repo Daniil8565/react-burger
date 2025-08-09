@@ -27,7 +27,8 @@ const ResetPassword = () => {
     }
   }, [success, navigate]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     resetPassword(password, token);
   };
 
@@ -38,37 +39,38 @@ const ResetPassword = () => {
           Восстановление пароля
         </p>
 
-        <PasswordInput
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          name="password"
-          extraClass="mt-6"
-          disabled={isLoading}
-        />
+        <form onSubmit={handleSubmit}>
+          <PasswordInput
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            name="password"
+            extraClass="mt-6"
+            disabled={isLoading}
+          />
 
-        <Input
-          type="text"
-          placeholder="Код из письма"
-          onChange={(e) => setToken(e.target.value)}
-          value={token}
-          name="token"
-          error={!!error}
-          errorText="Ошибка"
-          size="default"
-          extraClass="mt-6 mb-6"
-          disabled={isLoading}
-        />
+          <Input
+            type="text"
+            placeholder="Код из письма"
+            onChange={(e) => setToken(e.target.value)}
+            value={token}
+            name="token"
+            error={!!error}
+            errorText="Ошибка"
+            size="default"
+            extraClass="mt-6 mb-6"
+            disabled={isLoading}
+          />
 
-        <Button
-          htmlType="button"
-          type="primary"
-          size="medium"
-          extraClass={`${styles.button} ml-2 mb-20`}
-          onClick={handleSubmit}
-          disabled={isLoading}
-        >
-          {isLoading ? 'Загрузка...' : 'Сохранить'}
-        </Button>
+          <Button
+            htmlType="submit"
+            type="primary"
+            size="medium"
+            extraClass={`${styles.button} ml-2 mb-20`}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Загрузка...' : 'Сохранить'}
+          </Button>
+        </form>
 
         {error && (
           <p className="text text_type_main-default text_color_error">

@@ -7,7 +7,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './SigninPage.module.css';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { RootState } from '../../services/reducers/index';
+import { RootState } from '../../services/reducers';
 import { useActions } from '../../hooks/useAction';
 
 const SigninPage = () => {
@@ -26,14 +26,15 @@ const SigninPage = () => {
       fetchUser();
       navigate('/');
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, fetchUser]);
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValueEmail(e.target.value);
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValuePassword(e.target.value);
 
-  const onLoginClick = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     try {
       await loginUser(valueEmail, valuePassword);
       await fetchUser();
@@ -46,29 +47,30 @@ const SigninPage = () => {
     <div className={styles.container}>
       <div className={styles.content}>
         <p className={`${styles.entrance} text text_type_main-medium`}>Вход</p>
-        <EmailInput
-          onChange={onChangeEmail}
-          value={valueEmail}
-          name={'email'}
-          isIcon={false}
-          extraClass="mb-6 mt-6"
-        />
-        <PasswordInput
-          onChange={onChangePassword}
-          value={valuePassword}
-          name={'password'}
-          extraClass="mb-6"
-        />
-        <Button
-          htmlType="button"
-          type="primary"
-          size="small"
-          extraClass={`${styles.button} ml-2`}
-          onClick={onLoginClick}
-          disabled={isLoading}
-        >
-          Войти
-        </Button>
+        <form onSubmit={handleSubmit}>
+          <EmailInput
+            onChange={onChangeEmail}
+            value={valueEmail}
+            name="email"
+            isIcon={false}
+            extraClass="mb-6 mt-6"
+          />
+          <PasswordInput
+            onChange={onChangePassword}
+            value={valuePassword}
+            name="password"
+            extraClass="mb-6"
+          />
+          <Button
+            htmlType="submit"
+            type="primary"
+            size="small"
+            extraClass={`${styles.button} ml-2`}
+            disabled={isLoading}
+          >
+            Войти
+          </Button>
+        </form>
 
         {error && (
           <p

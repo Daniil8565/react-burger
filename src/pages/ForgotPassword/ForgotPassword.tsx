@@ -21,11 +21,10 @@ const ForgotPassword = () => {
     setValueEmail(e.target.value);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await sendForgotEmail(valueEmail);
 
-    // После успешной отправки переходим к reset-password
     if (success) {
       navigate('/reset-password');
     }
@@ -37,23 +36,26 @@ const ForgotPassword = () => {
         <p className={`${styles.entrance} text text_type_main-medium`}>
           Восстановление пароля
         </p>
-        <EmailInput
-          onChange={onChangeEmail}
-          value={valueEmail}
-          placeholder="Укажите e-mail"
-          name={'email'}
-          extraClass="mb-6 mt-6"
-        />
-        <Button
-          htmlType="button"
-          type="primary"
-          size="small"
-          extraClass={`${styles.button} mb-20`}
-          onClick={handleSubmit}
-          disabled={isLoading}
-        >
-          Восстановить
-        </Button>
+
+        <form onSubmit={handleSubmit}>
+          <EmailInput
+            onChange={onChangeEmail}
+            value={valueEmail}
+            placeholder="Укажите e-mail"
+            name="email"
+            extraClass="mb-6 mt-6"
+          />
+          <Button
+            htmlType="submit"
+            type="primary"
+            size="small"
+            extraClass={`${styles.button} mb-20`}
+            disabled={isLoading}
+          >
+            Восстановить
+          </Button>
+        </form>
+
         <div className={styles.containerLink}>
           <p className="text text_type_main-default text_color_inactive">
             Вспомнили пароль?
@@ -62,6 +64,7 @@ const ForgotPassword = () => {
             Войти
           </Link>
         </div>
+
         {error && (
           <p className="text text_type_main-default text_color_error">
             {error}
