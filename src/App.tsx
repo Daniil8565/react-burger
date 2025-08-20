@@ -20,10 +20,14 @@ import ProfilePage from './pages/ProfilePage/ProfilePage';
 import IngredientPage from './pages/IngredientPage/IngredientPage';
 import Modal from './components/Modal/Modal';
 import IngredientDetails from './components/IngredientDetails/IngredientDetails';
+import Feed from './pages/feedPage/Feed';
 
 import { useTypedSelector } from './hooks/useTypedSelector';
 import ProtectedRouteElement from './components/ProtectedRouteElement/ProtectedRouteElement';
 import { RootState } from './services/reducers/index';
+import OrderPage from './pages/OrderPage/OrderPage';
+import ProfileForm from './pages/ProfileForm/ProfileForm';
+import OrdersPage from './pages/OrdersPage/OrdersPage';
 
 function App() {
   const location = useLocation();
@@ -72,6 +76,7 @@ function App() {
             </ProtectedRouteElement>
           }
         />
+        <Route path="/feed/:id" element={<OrderPage />} />
         <Route
           path="/reset-password"
           element={
@@ -84,6 +89,7 @@ function App() {
             </ProtectedRouteElement>
           }
         />
+        <Route path="/feed" element={<Feed />} />
 
         {/* Защищённый маршрут */}
         <Route
@@ -93,7 +99,11 @@ function App() {
               <ProfilePage />
             </ProtectedRouteElement>
           }
-        />
+        >
+          <Route index element={<ProfileForm />} />
+          <Route path="orders" element={<OrdersPage />} />
+          {/* /profile/orders */}
+        </Route>
         <Route path="/ingredients/:id" element={<IngredientPage />} />
       </Routes>
 

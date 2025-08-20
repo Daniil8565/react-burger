@@ -1,0 +1,161 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0d0d0d;
+  color: #fff;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  margin: 0 auto;
+  max-width: 1270px;
+  padding: 0 15px;
+}
+
+.feed {
+  width: 50%;
+}
+
+.summary {
+  width: 50%;
+}
+/* Лента заказов */
+.feed__title {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 40px;
+  margin-bottom: 20px;
+}
+
+.order-card {
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.order-card__header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 8px;
+}
+
+.order-card__name {
+  font-size: 18px;
+  margin: 8px 0;
+}
+
+.order-card__ingredients {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.order-card__ingredients img {
+  border-radius: 50%;
+  border: 2px solid #222;
+}
+
+.order-card__footer {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.order-card__price {
+  margin-right: 5px;
+}
+
+/* Сводка */
+.summary {
+  border-radius: 12px;
+  padding-top: 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.summary__section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 30px;
+}
+
+.ready {
+  width: 50%;
+}
+
+.progress {
+  width: 50%;
+}
+
+.summary__section h2 {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  margin-top: 0;
+}
+
+.summary__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.summary__list li {
+  color: #00cccc;
+  font-size: 28px;
+  line-height: 24px;
+  font-weight: 400;
+  text-align: left;
+  font-weight: bold;
+}
+
+.ready li {
+  color: #00cccc;
+}
+
+.progress li {
+  color: #f2f2f3;
+}
+
+.summary__Allthetime {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.summary__today {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.order-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  transition: background 0.2s;
+}
+
+.order-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
