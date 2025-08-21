@@ -1,15 +1,20 @@
 import React from 'react';
 import styles from './Feed.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Feed = () => {
+  const location = useLocation();
   return (
     <div className={styles.container}>
       {/* Левая колонка */}
       <section className={styles.feed}>
         <h1 className={styles.feed__title}>Лента заказов</h1>
 
-        <Link to={`/feed/034535`} className={styles['order-card']}>
+        <Link
+          to={`/feed/034535`}
+          className={styles['order-card']}
+          state={{ background: location }}
+        >
           <header className={styles['order-card__header']}>
             <span className={styles['order-card__id']}>#034535</span>
             <span className={styles['order-card__time']}>Сегодня, 16:20</span>
@@ -28,7 +33,11 @@ const Feed = () => {
           </div>
         </Link>
 
-        <Link to={`/feed/034534`} className={styles['order-card']}>
+        <Link
+          to={`/feed/034534`}
+          className={styles['order-card']}
+          state={{ background: location }}
+        >
           <header className={styles['order-card__header']}>
             <span className={styles['order-card__id']}>#034534</span>
             <span className={styles['order-card__time']}>Сегодня, 13:20</span>
@@ -44,7 +53,11 @@ const Feed = () => {
           </div>
         </Link>
 
-        <Link to={`/feed/034533`} className={styles['order-card']}>
+        <Link
+          to={`/feed/034533`}
+          className={styles['order-card']}
+          state={{ background: location }}
+        >
           <header className={styles['order-card__header']}>
             <span className={styles['order-card__id']}>#034533</span>
             <span className={styles['order-card__time']}>Вчера, 13:50</span>

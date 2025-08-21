@@ -28,6 +28,7 @@ import { RootState } from './services/reducers/index';
 import OrderPage from './pages/OrderPage/OrderPage';
 import ProfileForm from './pages/ProfileForm/ProfileForm';
 import OrdersPage from './pages/OrdersPage/OrdersPage';
+import OrderDetailsPage from './pages/OrderDetailsPage/OrderDetailsPage';
 
 function App() {
   const location = useLocation();
@@ -41,14 +42,15 @@ function App() {
     (state: RootState) => state.IngredientDetailsReducer.selectedIngredient
   );
 
-  // Приводим тип location.state к объекту с возможным полем background (если есть)
+  // для модалок
   const state = location.state as { background?: Location };
 
   return (
     <>
       <AppHeader />
+
+      {/* обычные маршруты */}
       <Routes location={state?.background || location}>
-        {/* Публичный маршрут */}
         <Route path="/" element={<CustomBurger />} />
 
         {/* Только для НЕавторизованных */}
@@ -76,7 +78,6 @@ function App() {
             </ProtectedRouteElement>
           }
         />
-        <Route path="/feed/:id" element={<OrderPage />} />
         <Route
           path="/reset-password"
           element={
@@ -89,9 +90,12 @@ function App() {
             </ProtectedRouteElement>
           }
         />
-        <Route path="/feed" element={<Feed />} />
 
-        {/* Защищённый маршрут */}
+        {/* Лента заказов */}
+        <Route path="/feed" element={<Feed />} />
+        <Route path="/feed/:id" element={<OrderPage />} />
+
+        {/* Профиль */}
         <Route
           path="/profile"
           element={
@@ -102,13 +106,22 @@ function App() {
         >
           <Route index element={<ProfileForm />} />
           <Route path="orders" element={<OrdersPage />} />
-          {/* /profile/orders */}
         </Route>
+        <Route
+          path="/profile/orders/:id"
+          element={
+            <ProtectedRouteElement>
+              <OrderDetailsPage />
+            </ProtectedRouteElement>
+          }
+        />
+
+        {/* ингредиенты */}
         <Route path="/ingredients/:id" element={<IngredientPage />} />
       </Routes>
 
-      {/* Модалка поверх главной страницы */}
-      {state?.background && selectedItem && (
+      {/* модальные окна */}
+      {state?.background && (
         <Routes>
           <Route
             path="/ingredients/:id"
@@ -120,7 +133,25 @@ function App() {
                 }}
                 header="Детали ингредиента"
               >
-                <IngredientDetails item={selectedItem} />
+                {selectedItem && <IngredientDetails item={selectedItem} />}
+              </Modal>
+            }
+          />
+
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal onClick={() => navigate(-1)} header="Детали заказа">
+                <OrderPage />
+              </Modal>
+            }
+          />
+
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal onClick={() => navigate(-1)} header="Детали заказа">
+                <OrderDetailsPage />
               </Modal>
             }
           />

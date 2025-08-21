@@ -1,0 +1,69 @@
+/* OrdersPage.module.css */
+:root {
+  --header-h: 300px; /* фактическая высота вашего header */
+}
+
+.container {
+  margin-top: var(--header-h); /* уводим блок ниже хедера */
+  height: calc(100vh - var(--header-h)); /* занимаем остаток высоты */
+  box-sizing: border-box;
+  padding: 24px;
+  display: flex;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%; /* важно: список растягиваем на всю высоту контейнера */
+  overflow-y: auto; /* скролл только внутри списка */
+  padding-right: 8px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  text-decoration: none;
+  padding: 24px;
+  background-color: #1c1c21;
+  border-radius: 40px;
+  width: 700px;
+  height: 246px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  color: #f2f2f3;
+  text-align: left;
+  align-self: flex-start;
+  margin: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clock {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #8585ad;
+}
+
+.id {
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+  color: #f2f2f3;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
