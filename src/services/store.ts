@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { rootReducer } from './reducers';
 import { ordersWsMiddleware } from './middleware/ordersWs';
+import { historyOrdersWsMiddleware } from './middleware/historyOrders';
 import type { Middleware } from 'redux';
 
 // Явно указываем тип middleware
-const wsMiddleware: Middleware = ordersWsMiddleware;
+const wsMiddleware: Middleware[] = [
+  ordersWsMiddleware,
+  historyOrdersWsMiddleware,
+];
 
 export const store = configureStore({
   reducer: rootReducer,

@@ -103,11 +103,8 @@ const ProfilePage = () => {
             Выход
           </p>
         </div>
-
         {/* Контент справа */}
-        <div className={styles.containerInput}>
-          <Outlet /> {/* Здесь будут рендериться ProfileForm или OrdersPage */}
-        </div>
+        <Outlet /> {/* Здесь будут рендериться ProfileForm или OrdersPage */}
       </div>
     </div>
   );

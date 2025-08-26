@@ -16,7 +16,6 @@ export const ordersWsMiddleware: Middleware<{}, RootState> = (store) => {
   let socket: WebSocket | null = null;
 
   return (next) => (action) => {
-    // Приводим к своему типу (иначе TS думает, что action = unknown)
     const typedAction = action as OrdersActions;
 
     switch (typedAction.type) {

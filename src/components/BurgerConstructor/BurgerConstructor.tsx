@@ -144,7 +144,7 @@ const BurgerConstructor = ({
               ...ingredients.map((item) => item._id),
               bun._id,
             ];
-
+            console.log(ingredientsIds);
             sendOrder(ingredientsIds);
             setModal(true);
           }}

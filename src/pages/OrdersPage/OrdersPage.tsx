@@ -1,102 +1,110 @@
 import { Link, useLocation } from 'react-router-dom';
-import {
-  CurrencyIcon,
-  CheckMarkIcon,
-  LockIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './OrdersPage.module.css';
-
-const orders = [
-  {
-    id: '034535',
-    title: 'Death Star Starship Main бургер',
-    status: 'Создан',
-    time: 'Сегодня, 16:20',
-    icons: ['🪐', '🦑', '🌊', '🍜'],
-    price: 480,
-  },
-  {
-    id: '034534',
-    title: 'Interstellar бургер',
-    status: 'Готовится',
-    time: 'Сегодня, 13:20',
-    icons: ['🪐', '🌊', '🍜', '+3'],
-    price: 560,
-  },
-  {
-    id: '034533',
-    title: 'Black Hole Singularity острый бургер',
-    status: 'Выполнен',
-    time: 'Вчера, 13:50',
-    icons: ['🪐', '🌊', '🍜'],
-    price: 510,
-  },
-  {
-    id: '034532',
-    title: 'Supernova Infinity бургер',
-    status: '',
-    time: '2 дня назад, 21:53',
-    icons: ['🪐', '🌊', '🍜'],
-    price: 590,
-  },
-];
+import { RootState, AppDispatch } from '../../services/store';
+import { wsConnect, wsDisconnect } from '../../services/actions/historyOrders';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 export default function OrdersPage() {
   const location = useLocation();
+  const dispatch = useDispatch<AppDispatch>();
+  const data = useTypedSelector(
+    (state) => state.BurgerIngredientsReducers.data
+  );
+
+  const { orders } = useSelector((state: RootState) => state.historyOrders);
+  console.log(orders);
+  useEffect(() => {
+    dispatch(wsConnect());
+
+    return () => {
+      dispatch(wsDisconnect());
+    };
+  }, [dispatch]);
+
+  // Функция для отображения статуса
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'done':
+        return 'Выполнен';
+      case 'pending':
+        return 'Готовится';
+      case 'created':
+        return 'Создан';
+      default:
+        return '';
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.list}>
-        {orders.map((order) => (
-          <Link
-            key={order.id}
-            to={`/profile/orders/${order.id}`}
-            state={{ background: location }} // 👈 сохраняем текущую страницу
-            className={styles.item}
-          >
-            <div className={styles.header}>
-              <span className={styles.id}>#{order.id}</span>
-              <span className={styles.clock}>{order.time}</span>
-            </div>
-
-            <h2 className={styles.title}>{order.title}</h2>
-
-            {order.status && (
-              <div className="mt-1 text-sm flex items-center gap-1">
-                {order.status === 'Выполнен' ? (
-                  <CheckMarkIcon type="success" />
-                ) : (
-                  <LockIcon type="secondary" />
-                )}
-                <span
-                  className={
-                    order.status === 'Выполнен'
-                      ? 'text-green-400'
-                      : 'text-blue-400'
-                  }
-                >
-                  {order.status}
+        {orders.map((order) => {
+          const totalPrice = order.ingredients.reduce((sum, ingredientId) => {
+            const ingredientData = data!.find(
+              (item) => item._id === ingredientId
+            );
+            return ingredientData ? sum + ingredientData.price : sum;
+          }, 0);
+          return (
+            <Link
+              key={order._id}
+              to={`/profile/orders/${order._id}`}
+              state={{ background: location }}
+              className={styles.item}
+            >
+              <div className={styles.header}>
+                <span className={styles.id}>#{order.number}</span>
+                <span className={styles.clock}>
+                  {new Date(order.createdAt).toLocaleString()}
                 </span>
               </div>
-            )}
 
-            <div className={styles.footer}>
-              <div>
-                {order.icons.map((icon, i) => (
+              <h2 className={styles.title}>Бургер #{order.number}</h2>
+
+              {order.status && (
+                <div className="mt-1 text-sm flex items-center gap-1">
                   <span
-                    key={i}
-                    className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full px-3 py-1 text-lg shadow-md"
+                    className={`${styles.status} order.status === 'done' ? 'text-green-400' : 'text-blue-400'`}
                   >
-                    {icon}
+                    {getStatusText(order.status)}
                   </span>
-                ))}
+                </div>
+              )}
+
+              <div className={styles.footer}>
+                <div>
+                  {/* Здесь можно отображать иконки ингредиентов */}
+                  {order.ingredients.slice(0, 5).map((ingredientId, index) => {
+                    const ingredientData = data!.find(
+                      (item) => item._id === ingredientId
+                    );
+                    return ingredientData ? (
+                      <img
+                        key={index}
+                        src={ingredientData.image}
+                        alt={ingredientData.name}
+                        className={styles.ingredientImage}
+                      />
+                    ) : null;
+                  })}
+                  {order.ingredients.length > 5 && (
+                    <span>+{order.ingredients.length - 5}</span>
+                  )}
+                </div>
+
+                <div className="flex justify-end mt-4 text-lg font-bold items-center gap-1">
+                  <span className={styles['order-card__price']}>
+                    {totalPrice}
+                  </span>
+                  <CurrencyIcon type="primary" />
+                </div>
               </div>
-              <div className="flex justify-end mt-4 text-lg font-bold items-center gap-1">
-                {order.price}
-                <CurrencyIcon type="primary" />
-              </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

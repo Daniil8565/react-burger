@@ -2,7 +2,7 @@
 
 .container {
   max-width: 640px;
-  margin: 40px auto;
+  margin: auto;
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -50,15 +50,29 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  max-height: 300px; /* ограничиваем высоту (можешь подбирать под макет) */
+  overflow-y: auto; /* включаем вертикальный скролл */
+  padding-right: 8px; /* отступ, чтобы скролл не прилипал к тексту */
 }
 
 .ingredient {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: #1c1c21;
-  padding: 10px 14px;
-  border-radius: 12px;
+}
+
+/* Стилизация скроллбара для красоты */
+.ingredients::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ingredients::-webkit-scrollbar-thumb {
+  background: #2f2f37;
+  border-radius: 4px;
+}
+
+.ingredients::-webkit-scrollbar-track {
+  background: #1c1c21;
 }
 
 .imgBox {
