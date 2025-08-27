@@ -2,10 +2,12 @@ import React, { useEffect } from 'react';
 import styles from './Feed.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { useTypedDispatch } from '../../hooks/useTypedDispatch';
-import { RootState, AppDispatch } from '../../services/store';
-import { wsConnect, wsDisconnect } from '../../services/actions/orders';
+import { RootState } from '../../services/store';
+import { wsDisconnect } from '../../services/actions/orders';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ordersWsActions } from '../../services/actions/socketMiddleware';
+import { API_WEBSOCKET } from '../../constant';
 
 const Feed: React.FC = () => {
   const location = useLocation();
@@ -13,14 +15,20 @@ const Feed: React.FC = () => {
   const data = useTypedSelector(
     (state) => state.BurgerIngredientsReducers.data
   );
-  const { orders, total, totalToday } = useTypedSelector(
-    (state: RootState) => state.orders
-  );
-  console.log(orders, total, totalToday);
+
+  const {
+    orders = [],
+    total = 0,
+    totalToday = 0,
+  } = useTypedSelector((state: RootState) => state.orders);
+
   useEffect(() => {
-    dispatch(wsConnect());
+    dispatch({
+      type: ordersWsActions.wsConnect,
+      payload: { url: API_WEBSOCKET },
+    });
     return () => {
-      dispatch(wsDisconnect());
+      dispatch({ type: ordersWsActions.wsDisconnect });
     };
   }, [dispatch]);
 

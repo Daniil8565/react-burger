@@ -3,9 +3,11 @@ import { useEffect } from 'react';
 import { useTypedDispatch } from '../../hooks/useTypedDispatch';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './OrdersPage.module.css';
-import { RootState } from '../../services/store';
+import { RootState, store } from '../../services/store';
 import { wsConnect, wsDisconnect } from '../../services/actions/historyOrders';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { historyOrdersWsActions } from '../../services/actions/socketMiddleware';
+import { API_WEBSOCKET } from '../../constant';
 
 export default function OrdersPage() {
   const location = useLocation();
@@ -13,13 +15,18 @@ export default function OrdersPage() {
   const data = useTypedSelector(
     (state) => state.BurgerIngredientsReducers.data
   );
-
+  const token = store
+    .getState()
+    .authReducer.accessToken?.replace('Bearer ', '');
   const { orders } = useTypedSelector(
     (state: RootState) => state.historyOrders
   );
   console.log(orders);
   useEffect(() => {
-    dispatch(wsConnect());
+    dispatch({
+      type: historyOrdersWsActions.wsConnect,
+      payload: { url: `${API_WEBSOCKET}?token=${token}` },
+    });
 
     return () => {
       dispatch(wsDisconnect());
