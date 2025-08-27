@@ -107,17 +107,6 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({
           </div>
         ))}
       </div>
-      {modal && selectedItem && (
-        <Modal
-          onClick={() => {
-            setModal(false);
-            dispatch({ type: 'CLEAR_INGREDIENT_DETAILS' });
-          }}
-          header="Детали ингредиента"
-        >
-          <IngredientDetails item={selectedItem} />
-        </Modal>
-      )}
     </section>
   );
 };

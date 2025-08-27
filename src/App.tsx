@@ -30,6 +30,7 @@ import ProfileForm from './pages/ProfileForm/ProfileForm';
 import OrdersPage from './pages/OrdersPage/OrdersPage';
 import OrderDetailsPage from './pages/OrderDetailsPage/OrderDetailsPage';
 import { refreshAccessToken } from './services/actions/authActions';
+import IngredientModal from './components/IngredientModal/IngredientModal';
 
 function App() {
   const location = useLocation();
@@ -131,7 +132,7 @@ function App() {
       {/* модальные окна */}
       {state?.background && (
         <Routes>
-          <Route
+          {/* <Route
             path="/ingredients/:id"
             element={
               <Modal
@@ -144,7 +145,8 @@ function App() {
                 {selectedItem && <IngredientDetails item={selectedItem} />}
               </Modal>
             }
-          />
+          /> */}
+          <Route path="/ingredients/:id" element={<IngredientModal />} />
 
           <Route
             path="/feed/:id"
