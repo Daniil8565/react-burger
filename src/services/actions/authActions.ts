@@ -15,6 +15,7 @@ import {
   AuthActionTypes,
 } from '../../types/Authtypes';
 import { request } from '../../utils/request';
+import { fetchUser } from './userActions';
 
 const saveRefreshToken = (token: string) =>
   localStorage.setItem('refreshToken', token);
@@ -108,7 +109,7 @@ export const refreshAccessToken = () => {
       });
 
       saveRefreshToken(data.refreshToken);
-
+      dispatch(fetchUser() as any);
       dispatch({ type: REFRESH_TOKEN_SUCCESS, payload: data.accessToken });
     } catch (error: any) {
       dispatch({ type: REFRESH_TOKEN_FAILURE, payload: error.toString() });

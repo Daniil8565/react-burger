@@ -8,7 +8,7 @@ import {
   HistoryOrdersActions,
   IWsMessagePayload,
 } from '../actions/historyOrders';
-import { API_ORDER } from '../../constant';
+import { API_WEBSOCKET } from '../../constant';
 
 export const historyOrdersWsMiddleware: Middleware<{}, RootState> = (store) => {
   let socket: WebSocket | null = null;
@@ -29,8 +29,8 @@ export const historyOrdersWsMiddleware: Middleware<{}, RootState> = (store) => {
           .authReducer.accessToken?.replace('Bearer ', '');
         console.log('token', token);
         if (!token) return; // если нет токена, не подключаем WS
-        console.log(`${API_ORDER}?token=${token}`);
-        socket = new WebSocket(`${API_ORDER}?token=${token}`);
+        console.log(`${API_WEBSOCKET}?token=${token}`);
+        socket = new WebSocket(`${API_WEBSOCKET}?token=${token}`);
 
         socket.onopen = () => {
           console.log('WS connected');

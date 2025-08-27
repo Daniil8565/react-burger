@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import {
   Routes,
@@ -29,6 +29,7 @@ import OrderPage from './pages/OrderPage/OrderPage';
 import ProfileForm from './pages/ProfileForm/ProfileForm';
 import OrdersPage from './pages/OrdersPage/OrdersPage';
 import OrderDetailsPage from './pages/OrderDetailsPage/OrderDetailsPage';
+import { refreshAccessToken } from './services/actions/authActions';
 
 function App() {
   const location = useLocation();
@@ -44,6 +45,13 @@ function App() {
 
   // для модалок
   const state = location.state as { background?: Location };
+
+  useEffect(() => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (refreshToken) {
+      dispatch(refreshAccessToken() as any);
+    }
+  }, [dispatch]);
 
   return (
     <>

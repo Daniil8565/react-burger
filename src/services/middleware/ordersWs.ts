@@ -9,9 +9,9 @@ import {
   IWsSetOrdersPayload,
 } from '../actions/orders';
 import { RootState } from '../reducers/index';
-import { API_ORDER } from '../../constant';
+import { API_WEBSOCKET } from '../../constant';
 
-const WS_URL = `${API_ORDER}/all`;
+const WS_URL = `${API_WEBSOCKET}/all`;
 
 export const ordersWsMiddleware: Middleware<{}, RootState> = (store) => {
   let socket: WebSocket | null = null;
