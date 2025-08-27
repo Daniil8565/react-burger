@@ -22,6 +22,7 @@ const initialState: AuthState = {
   isLoading: false,
   error: null,
   isAuthenticated: false,
+  isAuthChecked: false,
 };
 
 export const authReducer = (
@@ -48,6 +49,7 @@ export const authReducer = (
         accessToken: action.payload.accessToken,
         isAuthenticated: true,
         error: null,
+        isAuthChecked: true,
       };
 
     case LOGOUT_SUCCESS:
@@ -58,6 +60,7 @@ export const authReducer = (
         isAuthenticated: false,
         isLoading: false,
         error: null,
+        isAuthChecked: true,
       };
 
     case REFRESH_TOKEN_SUCCESS:
@@ -67,6 +70,7 @@ export const authReducer = (
         accessToken: action.payload,
         isAuthenticated: true,
         error: null,
+        isAuthChecked: true,
       };
 
     case REGISTER_FAILURE:
@@ -78,6 +82,7 @@ export const authReducer = (
         isLoading: false,
         isAuthenticated: false,
         error: action.payload,
+        isAuthChecked: true,
       };
 
     default:

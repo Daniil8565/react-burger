@@ -46,13 +46,23 @@ function App() {
 
   // для модалок
   const state = location.state as { background?: Location };
-
+  const isAuthChecked = useTypedSelector(
+    (state: RootState) => state.authReducer.isAuthChecked
+  );
   useEffect(() => {
     const refreshToken = localStorage.getItem('refreshToken');
     if (refreshToken) {
       dispatch(refreshAccessToken() as any);
+    } else {
+      // Если нет refreshToken, всё равно отмечаем, что проверка завершена
+      dispatch({ type: 'NO_AUTH_CHECK_NEEDED' });
     }
   }, [dispatch]);
+
+  if (!isAuthChecked) {
+    // Можно показать лоадер
+    return <div>Загрузка...</div>;
+  }
 
   return (
     <>

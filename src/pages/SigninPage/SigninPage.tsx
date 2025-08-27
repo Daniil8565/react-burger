@@ -4,7 +4,7 @@ import {
   EmailInput,
   PasswordInput,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './SigninPage.module.css';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../services/reducers';
@@ -12,6 +12,7 @@ import { useActions } from '../../hooks/useAction';
 
 const SigninPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [valueEmail, setValueEmail] = React.useState('bob@example.com');
   const [valuePassword, setValuePassword] = React.useState('password');
@@ -21,10 +22,12 @@ const SigninPage = () => {
     (state: RootState) => state.authReducer
   );
 
+  const from = location.state?.from?.pathname || '/';
+
   React.useEffect(() => {
     if (isAuthenticated) {
       fetchUser();
-      navigate('/');
+      navigate(from, { replace: true });
     }
   }, [isAuthenticated, navigate, fetchUser]);
 
