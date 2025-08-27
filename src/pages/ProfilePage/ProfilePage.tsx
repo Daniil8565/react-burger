@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './ProfilePage.module.css';
 import { useActions } from '../../hooks/useAction';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { RootState } from '../../services/reducers/index';
+import { RootState } from '../../services/reducers';
 
 const ProfilePage = () => {
   const [activeLink, setActiveLink] = useState('Профиль');
@@ -24,7 +24,6 @@ const ProfilePage = () => {
   });
 
   useEffect(() => {
-    console.log('User from store:', user);
     if (user) {
       setForm({
         name: user.name,
@@ -34,7 +33,6 @@ const ProfilePage = () => {
     }
   }, [user]);
 
-  // Обработка изменения полей
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const newForm = { ...form, [name]: value };
@@ -47,10 +45,10 @@ const ProfilePage = () => {
     );
   };
 
-  async function handleClick(
+  const handleNavClick = async (
     e: React.MouseEvent<HTMLParagraphElement>,
     path: string
-  ) {
+  ) => {
     e.preventDefault();
     const linkText = e.currentTarget.textContent || '';
 
@@ -66,17 +64,15 @@ const ProfilePage = () => {
     } else {
       navigate(path, { replace: true });
     }
-  }
+  };
 
-  // Сохранение изменений
-  const handleSave = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     updateUser(form.name, form.email, form.password || undefined);
     setIsChanged(false);
-    setForm({ ...form, password: '' }); // очищаем пароль
+    setForm({ ...form, password: '' });
   };
 
-  // Отмена изменений
   const handleCancel = () => {
     setForm({
       name: user.name,
@@ -94,7 +90,7 @@ const ProfilePage = () => {
             className={`text text_type_digits-medium ${styles.link} ${
               activeLink === 'Профиль' ? '' : 'text_color_inactive'
             }`}
-            onClick={(e) => handleClick(e, '/profile')}
+            onClick={(e) => handleNavClick(e, '/profile')}
           >
             Профиль
           </p>
@@ -102,7 +98,7 @@ const ProfilePage = () => {
             className={`text text_type_digits-medium ${styles.link} ${
               activeLink === 'История заказов' ? '' : 'text_color_inactive'
             }`}
-            onClick={(e) => handleClick(e, '/profile/orders')}
+            onClick={(e) => handleNavClick(e, '/profile/orders')}
           >
             История заказов
           </p>
@@ -110,12 +106,14 @@ const ProfilePage = () => {
             className={`text text_type_digits-medium ${styles.link} ${
               activeLink === 'Выход' ? '' : 'text_color_inactive'
             }`}
-            onClick={(e) => handleClick(e, '/profile')}
+            onClick={(e) => handleNavClick(e, '/profile')}
           >
             Выход
           </p>
         </div>
-        <form className={styles.containerInput} onSubmit={handleSave}>
+
+        {/* форма с onSubmit */}
+        <form className={styles.containerInput} onSubmit={handleSubmit}>
           <Input
             type="text"
             placeholder="Имя"

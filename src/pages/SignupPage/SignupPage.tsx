@@ -9,7 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './SignupPage.module.css';
 import { useActions } from '../../hooks/useAction';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { RootState } from '../../services/reducers/index';
+import { RootState } from '../../services/reducers';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -22,24 +22,25 @@ const SignupPage = () => {
     (state: RootState) => state.authReducer
   );
 
-  const onRegisterClick = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (name && email && password) {
       try {
         await registerUser(email, password, name);
         await fetchUser();
         navigate('/');
-      } catch (error) {
-        console.error('Ошибка при регистрации:', error);
+      } catch (err) {
+        console.error('Ошибка при регистрации:', err);
       }
     }
   };
 
   React.useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
       fetchUser();
+      navigate('/');
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, fetchUser]);
 
   return (
     <div className={styles.container}>
@@ -47,39 +48,41 @@ const SignupPage = () => {
         <p className={`${styles.entrance} text text_type_main-medium`}>
           Регистрация
         </p>
-        <Input
-          type="text"
-          placeholder="Имя"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-          name="name"
-          error={false}
-          errorText="Ошибка"
-          size="default"
-          extraClass="mt-6"
-        />
-        <EmailInput
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-          name="email"
-          isIcon={false}
-          extraClass="mb-6 mt-6"
-        />
-        <PasswordInput
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          name="password"
-          extraClass="mb-6"
-        />
-        <Button
-          htmlType="button"
-          type="primary"
-          size="small"
-          extraClass={`${styles.button} ml-2 mb-20`}
-          onClick={onRegisterClick}
-        >
-          Зарегистрироваться
-        </Button>
+        <form onSubmit={handleSubmit}>
+          <Input
+            type="text"
+            placeholder="Имя"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            name="name"
+            error={false}
+            errorText="Ошибка"
+            size="default"
+            extraClass="mt-6"
+          />
+          <EmailInput
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            name="email"
+            isIcon={false}
+            extraClass="mb-6 mt-6"
+          />
+          <PasswordInput
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            name="password"
+            extraClass="mb-6"
+          />
+          <Button
+            htmlType="submit"
+            type="primary"
+            size="small"
+            extraClass={`${styles.button} ml-2 mb-20`}
+            disabled={isLoading}
+          >
+            Зарегистрироваться
+          </Button>
+        </form>
         {error && (
           <p
             className={`text text_type_main-default text_color_error ${styles.error}`}
