@@ -7,6 +7,7 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { DraggableIngredient } from '../DraggableIngredient/DraggableIngredient';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const CATEGORIES = [
   { label: 'Булки', type: 'bun' },
@@ -52,6 +53,8 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({
   const data = useTypedSelector(
     (state) => state.BurgerIngredientsReducers.data
   );
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const sectionRefs: Record<Category, React.RefObject<HTMLDivElement> | null> =
     {
@@ -94,7 +97,9 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({
                         type: 'SET_INGREDIENT_DETAILS',
                         payload: item,
                       });
-                      setModal(true);
+                      navigate(`/ingredients/${item._id}`, {
+                        state: { background: location },
+                      });
                     }}
                   />
                 ))}

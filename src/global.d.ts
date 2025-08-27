@@ -1,8 +1,17 @@
-declare module '*.module.css' {
-  const classes: { [key: string]: string };
-  export default classes;
+import type * as React from 'react';
+
+declare module 'react' {
+  interface HTMLAttributes<T> {
+    onPointerEnterCapture?: (e: React.PointerEvent<T>) => void;
+    onPointerLeaveCapture?: (e: React.PointerEvent<T>) => void;
+  }
+  interface RefAttributes<T> {
+    onPointerEnterCapture?: (e: React.PointerEvent<T>) => void;
+    onPointerLeaveCapture?: (e: React.PointerEvent<T>) => void;
+  }
 }
-declare module '*.png';
-declare module '*.jpg';
-declare module '*.svg';
-// и т. д.
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}

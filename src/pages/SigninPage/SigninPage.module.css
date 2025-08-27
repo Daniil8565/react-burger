@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.entrance {
+  text-align: center;
+}
+
+.button {
+  width: 128px;
+  height: 56px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 16px 40px 16px 40px;
+}
+
+.link {
+  color: blue;
+}
+
+.containerLink {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.errorLogin {
+  position: relative;
+  left: 53px;
+}
