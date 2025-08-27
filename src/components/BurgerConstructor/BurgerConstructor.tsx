@@ -5,7 +5,7 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
+import { useTypedDispatch } from '../../hooks/useTypedDispatch';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useAction';
 import { Idata, IConstructorIngredient } from '../../types/BurgerIngrediend';
@@ -23,7 +23,7 @@ const BurgerConstructor: React.FC<{
   >;
 }> = ({ setIngredientCounts }) => {
   const [modal, setModal] = React.useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
   const navigate = useNavigate();
   const { bun, ingredients } = useTypedSelector(
     (state) => state.BurgerConstructorReducer

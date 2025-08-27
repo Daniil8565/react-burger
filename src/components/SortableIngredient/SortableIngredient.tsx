@@ -4,7 +4,7 @@ import {
   ConstructorElement,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
+import { useTypedDispatch } from '../../hooks/useTypedDispatch';
 import {
   DELETE_INGREDIENT,
   moveIngredient,
@@ -23,7 +23,7 @@ const SortableIngredient: React.FC<Props> = ({
   index,
   onRemove,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
   const ref = useRef<HTMLDivElement>(null);
 
   const [, drop] = useDrop({

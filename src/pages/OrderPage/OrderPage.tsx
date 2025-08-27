@@ -1,13 +1,13 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../services/store';
 import styles from './OrderPage.module.css';
 
 const OrderPage: React.FC = () => {
   const { id } = useParams(); // это order.number
-  const { orders } = useSelector((state: RootState) => state.orders);
-  const ingredients = useSelector(
+  const { orders } = useTypedSelector((state: RootState) => state.orders);
+  const ingredients = useTypedSelector(
     (state: RootState) => state.BurgerIngredientsReducers.data
   );
 

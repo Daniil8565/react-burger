@@ -1,11 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerIngredients.module.css';
-import { Idata } from '../../types/BurgerIngrediend';
-import Modal from '../Modal/Modal';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { DraggableIngredient } from '../DraggableIngredient/DraggableIngredient';
-import { useDispatch } from 'react-redux';
+import { useTypedDispatch } from '../../hooks/useTypedDispatch';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -72,7 +69,7 @@ const BurgerIngredients: React.FC<BurgerIngredientsProps> = ({
     }
   };
 
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
   const selectedItem = useTypedSelector(
     (state) => state.IngredientDetailsReducer.selectedIngredient
   );

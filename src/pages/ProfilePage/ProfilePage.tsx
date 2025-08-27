@@ -1,10 +1,5 @@
 // ProfilePage.tsx
 import React, { useEffect, useState } from 'react';
-import {
-  PasswordInput,
-  Input,
-  Button,
-} from '@ya.praktikum/react-developer-burger-ui-components';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import styles from './ProfilePage.module.css';
 import { useActions } from '../../hooks/useAction';

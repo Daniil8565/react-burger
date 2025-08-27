@@ -1,4 +1,3 @@
-// hooks/useTypedDispatch.ts
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../services/store';
 

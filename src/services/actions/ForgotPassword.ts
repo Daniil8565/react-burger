@@ -3,19 +3,17 @@ import {
   SEND_FORGOT_EMAIL_SUCCESS,
   SEND_FORGOT_EMAIL_FAILURE,
 } from '../../types/ForgotPassword';
+import { BASE_URL } from '../../constant';
 
 export const sendForgotEmail = (email: string) => async (dispatch: any) => {
   dispatch({ type: SEND_FORGOT_EMAIL_REQUEST });
 
   try {
-    const response = await fetch(
-      'https://norma.nomoreparties.space/api/password-reset',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      }
-    );
+    const response = await fetch(`${BASE_URL}/password-reset`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
 
     const data = await response.json();
     console.log(data);

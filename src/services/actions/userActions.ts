@@ -19,7 +19,7 @@ export const fetchUser = () => {
     getState: () => RootState
   ) => {
     dispatch({ type: FETCH_USER_REQUEST });
-    console.log('fetchUser');
+
     try {
       const accessToken = getAccessTokenFromState(getState());
       const data = await request('auth/user', {

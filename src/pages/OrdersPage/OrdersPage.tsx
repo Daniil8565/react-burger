@@ -1,20 +1,22 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useTypedDispatch } from '../../hooks/useTypedDispatch';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './OrdersPage.module.css';
-import { RootState, AppDispatch } from '../../services/store';
+import { RootState } from '../../services/store';
 import { wsConnect, wsDisconnect } from '../../services/actions/historyOrders';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 export default function OrdersPage() {
   const location = useLocation();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useTypedDispatch();
   const data = useTypedSelector(
     (state) => state.BurgerIngredientsReducers.data
   );
 
-  const { orders } = useSelector((state: RootState) => state.historyOrders);
+  const { orders } = useTypedSelector(
+    (state: RootState) => state.historyOrders
+  );
   console.log(orders);
   useEffect(() => {
     dispatch(wsConnect());

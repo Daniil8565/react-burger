@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styles from './Feed.module.css';
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useTypedDispatch } from '../../hooks/useTypedDispatch';
 import { RootState, AppDispatch } from '../../services/store';
 import { wsConnect, wsDisconnect } from '../../services/actions/orders';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
@@ -9,11 +9,11 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 
 const Feed: React.FC = () => {
   const location = useLocation();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useTypedDispatch();
   const data = useTypedSelector(
     (state) => state.BurgerIngredientsReducers.data
   );
-  const { orders, total, totalToday } = useSelector(
+  const { orders, total, totalToday } = useTypedSelector(
     (state: RootState) => state.orders
   );
   console.log(orders, total, totalToday);
