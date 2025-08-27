@@ -8,8 +8,7 @@ import {
   HistoryOrdersActions,
   IWsMessagePayload,
 } from '../actions/historyOrders';
-
-const WS_URL = 'wss://norma.nomoreparties.space/orders';
+import { API_ORDER } from '../../constant';
 
 export const historyOrdersWsMiddleware: Middleware<{}, RootState> = (store) => {
   let socket: WebSocket | null = null;
@@ -30,8 +29,8 @@ export const historyOrdersWsMiddleware: Middleware<{}, RootState> = (store) => {
           .authReducer.accessToken?.replace('Bearer ', '');
         console.log('token', token);
         if (!token) return; // если нет токена, не подключаем WS
-        console.log(`${WS_URL}?token=${token}`);
-        socket = new WebSocket(`${WS_URL}?token=${token}`);
+        console.log(`${API_ORDER}?token=${token}`);
+        socket = new WebSocket(`${API_ORDER}?token=${token}`);
 
         socket.onopen = () => {
           console.log('WS connected');

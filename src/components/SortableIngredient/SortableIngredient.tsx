@@ -6,14 +6,14 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch } from 'react-redux';
 import {
-  moveIngredient,
   DELETE_INGREDIENT,
+  moveIngredient,
 } from '../../services/actions/BurgerConstructor';
-import { Idata } from '../../types/BurgerIngrediend';
+import { IConstructorIngredient } from '../../types/BurgerIngrediend';
 import styles from './SortableIngredient.module.css';
 
 type Props = {
-  ingredient: Idata;
+  ingredient: IConstructorIngredient;
   index: number;
   onRemove: () => void;
 };
@@ -32,7 +32,6 @@ const SortableIngredient: React.FC<Props> = ({
       if (!ref.current) return;
       const dragIndex = item.index;
       const hoverIndex = index;
-
       if (dragIndex === hoverIndex) return;
       dispatch(moveIngredient(dragIndex, hoverIndex));
       item.index = hoverIndex;
@@ -42,9 +41,7 @@ const SortableIngredient: React.FC<Props> = ({
   const [{ isDragging }, drag] = useDrag({
     type: 'sortable-ingredient',
     item: { index },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+    collect: (monitor) => ({ isDragging: monitor.isDragging() }),
   });
 
   drag(drop(ref));
@@ -61,7 +58,7 @@ const SortableIngredient: React.FC<Props> = ({
         price={ingredient.price}
         thumbnail={ingredient.image}
         handleClose={() => {
-          dispatch({ type: DELETE_INGREDIENT, index });
+          dispatch({ type: DELETE_INGREDIENT, uuid: ingredient.uuid });
           onRemove();
         }}
       />
