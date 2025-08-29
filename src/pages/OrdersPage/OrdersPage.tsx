@@ -8,6 +8,7 @@ import { wsConnect, wsDisconnect } from '../../services/actions/historyOrders';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { historyOrdersWsActions } from '../../services/actions/socketMiddleware';
 import { API_WEBSOCKET } from '../../constant';
+import { getBurgerIngredients } from '../../services/actions/BurgerIngredients';
 
 export default function OrdersPage() {
   const location = useLocation();
@@ -21,7 +22,6 @@ export default function OrdersPage() {
   const { orders } = useTypedSelector(
     (state: RootState) => state.historyOrders
   );
-  console.log(orders);
   useEffect(() => {
     dispatch({
       type: historyOrdersWsActions.wsConnect,
@@ -46,6 +46,10 @@ export default function OrdersPage() {
         return '';
     }
   };
+  console.log(orders);
+  if (!orders || orders.length === 0) {
+    return <p>Загрузка заказа...</p>;
+  }
 
   return (
     <div className={styles.container}>

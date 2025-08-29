@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { RootState } from '../../services/store';
 import styles from './OrderPage.module.css';
+import { useEffect } from 'react';
+import { getBurgerIngredients } from '../../services/actions/BurgerIngredients';
+import { useTypedDispatch } from '../../hooks/useTypedDispatch';
 
 const OrderPage: React.FC = () => {
   const { id } = useParams(); // это order.number
@@ -10,6 +13,20 @@ const OrderPage: React.FC = () => {
   const ingredients = useTypedSelector(
     (state: RootState) => state.BurgerIngredientsReducers.data
   );
+  const dispatch = useTypedDispatch();
+  useEffect(() => {
+    if (!ingredients || ingredients.length === 0) {
+      dispatch(getBurgerIngredients());
+    }
+  }, [dispatch, ingredients]);
+
+  if (!orders || orders.length === 0) {
+    return <p>Загрузка заказа...</p>;
+  }
+
+  if (!ingredients || ingredients.length === 0) {
+    return <p>Загрузка ингредиентов...</p>;
+  }
 
   const order = orders.find((o) => o.number === Number(id));
 

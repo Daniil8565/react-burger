@@ -169,9 +169,11 @@ function App() {
           <Route
             path="/profile/orders/:id"
             element={
-              <Modal onClick={() => navigate(-1)} header="Детали заказа">
-                <OrderDetailsPage />
-              </Modal>
+              <ProtectedRouteElement>
+                <Modal onClick={() => navigate(-1)} header="Детали заказа">
+                  <OrderDetailsPage />
+                </Modal>
+              </ProtectedRouteElement>
             }
           />
         </Routes>

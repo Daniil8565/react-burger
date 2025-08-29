@@ -1,3 +1,8 @@
+import { useEffect } from 'react';
+import { useTypedDispatch } from '../../hooks/useTypedDispatch';
+import { historyOrdersWsActions } from '../../services/actions/socketMiddleware';
+import { API_WEBSOCKET } from '../../constant';
+import { store } from '../../services/store';
 import { useParams } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
 import {
@@ -5,15 +10,38 @@ import {
   CheckMarkIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './OrderDetailsPage.module.css';
+import { getBurgerIngredients } from '../../services/actions/BurgerIngredients';
 
 export default function OrderDetailsPage() {
   const { id } = useParams<{ id: string }>();
-
-  // Получаем все заказы и ингредиенты из стора
+  const dispatch = useTypedDispatch();
+  const token = store
+    .getState()
+    .authReducer.accessToken?.replace('Bearer ', '');
   const { orders } = useTypedSelector((state) => state.historyOrders);
   const ingredients = useTypedSelector(
     (state) => state.BurgerIngredientsReducers.data
   );
+
+  // Подключаем WebSocket если orders пустой
+  useEffect(() => {
+    if (!ingredients || ingredients.length === 0) {
+      dispatch(getBurgerIngredients());
+    }
+    if (!orders || orders.length === 0) {
+      dispatch({
+        type: historyOrdersWsActions.wsConnect,
+        payload: { url: `${API_WEBSOCKET}?token=${token}` },
+      });
+      return () => {
+        dispatch({ type: historyOrdersWsActions.wsDisconnect });
+      };
+    }
+  }, [dispatch, orders, token]);
+
+  if (!orders || orders.length === 0) {
+    return <p>Загрузка заказа...</p>;
+  }
 
   // Находим заказ по id
   const order = orders.find((order) => order._id === id);
@@ -49,7 +77,7 @@ export default function OrderDetailsPage() {
         return '';
     }
   };
-
+  console.log(order);
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Бургер #{order.number}</h1>
