@@ -1,10 +1,6 @@
+// ProfilePage.tsx
 import React, { useEffect, useState } from 'react';
-import {
-  PasswordInput,
-  Input,
-  Button,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import styles from './ProfilePage.module.css';
 import { useActions } from '../../hooks/useAction';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
@@ -13,6 +9,7 @@ import { RootState } from '../../services/reducers';
 const ProfilePage = () => {
   const [activeLink, setActiveLink] = useState('Профиль');
   const navigate = useNavigate();
+  const location = useLocation();
   const { logoutUser, updateUser } = useActions();
   const { user } = useTypedSelector((state: RootState) => state.userReducer);
   const [isChanged, setIsChanged] = useState(false);
@@ -33,10 +30,16 @@ const ProfilePage = () => {
     }
   }, [user]);
 
+  // Обновляем активную ссылку при смене маршрута
+  useEffect(() => {
+    if (location.pathname === '/profile') setActiveLink('Профиль');
+    else if (location.pathname === '/profile/orders')
+      setActiveLink('История заказов');
+  }, [location.pathname]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const newForm = { ...form, [name]: value };
-
     setForm(newForm);
     setIsChanged(
       newForm.name !== user.name ||
@@ -45,24 +48,12 @@ const ProfilePage = () => {
     );
   };
 
-  const handleNavClick = async (
-    e: React.MouseEvent<HTMLParagraphElement>,
-    path: string
-  ) => {
-    e.preventDefault();
-    const linkText = e.currentTarget.textContent || '';
-
-    setActiveLink(linkText);
-
+  const handleNavClick = async (linkText: string, path?: string) => {
     if (linkText === 'Выход') {
-      try {
-        await logoutUser();
-        navigate('/login', { replace: true });
-      } catch (err) {
-        console.error('Ошибка выхода:', err);
-      }
-    } else {
-      navigate(path, { replace: true });
+      await logoutUser();
+      navigate('/login', { replace: true });
+    } else if (path) {
+      navigate(path);
     }
   };
 
@@ -74,11 +65,7 @@ const ProfilePage = () => {
   };
 
   const handleCancel = () => {
-    setForm({
-      name: user.name,
-      email: user.email,
-      password: '',
-    });
+    setForm({ name: user.name, email: user.email, password: '' });
     setIsChanged(false);
   };
 
@@ -90,7 +77,7 @@ const ProfilePage = () => {
             className={`text text_type_digits-medium ${styles.link} ${
               activeLink === 'Профиль' ? '' : 'text_color_inactive'
             }`}
-            onClick={(e) => handleNavClick(e, '/profile')}
+            onClick={() => handleNavClick('Профиль', '/profile')}
           >
             Профиль
           </p>
@@ -98,7 +85,7 @@ const ProfilePage = () => {
             className={`text text_type_digits-medium ${styles.link} ${
               activeLink === 'История заказов' ? '' : 'text_color_inactive'
             }`}
-            onClick={(e) => handleNavClick(e, '/profile/orders')}
+            onClick={() => handleNavClick('История заказов', '/profile/orders')}
           >
             История заказов
           </p>
@@ -106,58 +93,13 @@ const ProfilePage = () => {
             className={`text text_type_digits-medium ${styles.link} ${
               activeLink === 'Выход' ? '' : 'text_color_inactive'
             }`}
-            onClick={(e) => handleNavClick(e, '/profile')}
+            onClick={() => handleNavClick('Выход')}
           >
             Выход
           </p>
         </div>
-
-        {/* форма с onSubmit */}
-        <form className={styles.containerInput} onSubmit={handleSubmit}>
-          <Input
-            type="text"
-            placeholder="Имя"
-            onChange={handleChange}
-            value={form.name}
-            name="name"
-            error={false}
-            size="default"
-            extraClass="mt-6 mb-6"
-          />
-          <Input
-            type="email"
-            placeholder="Email"
-            onChange={handleChange}
-            value={form.email}
-            name="email"
-            error={false}
-            size="default"
-            extraClass="mt-6 mb-6"
-          />
-          <PasswordInput
-            onChange={handleChange}
-            value={form.password}
-            autoComplete="new-password"
-            name="password"
-            extraClass="mt-6 mb-6"
-          />
-
-          {isChanged && (
-            <div className={styles.buttonGroup}>
-              <Button
-                htmlType="button"
-                type="secondary"
-                size="medium"
-                onClick={handleCancel}
-              >
-                Отмена
-              </Button>
-              <Button htmlType="submit" type="primary" size="medium">
-                Сохранить
-              </Button>
-            </div>
-          )}
-        </form>
+        {/* Контент справа */}
+        <Outlet /> {/* Здесь будут рендериться ProfileForm или OrdersPage */}
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './ResetPassword.module.css';
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useAction';
 import { RootState } from '../../services/reducers';
 
@@ -17,7 +17,7 @@ const ResetPassword = () => {
   const [token, setToken] = React.useState('');
   const { resetPassword } = useActions();
 
-  const { isLoading, error, success } = useSelector(
+  const { isLoading, error, success } = useTypedSelector(
     (state: RootState) => state.resetPasswordReducer
   );
 

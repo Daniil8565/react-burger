@@ -1,9 +1,10 @@
 import { Dispatch } from 'redux';
 import { BurgerAction, BurgerActionTypes } from '../../types/BurgerIngrediend';
 import { request } from '../../utils/request';
+import { AppDispatch } from '../store';
 
 export function getBurgerIngredients() {
-  return function (dispatch: Dispatch<BurgerAction>) {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: BurgerActionTypes.LOADING,
     });

@@ -19,6 +19,10 @@ export type Idata = {
   calories: number;
 };
 
+export interface IConstructorIngredient extends Idata {
+  uuid: string; // уникальный идентификатор для конструктора
+}
+
 export enum BurgerActionTypes {
   SUCCESS = 'SUCCESS',
   FAILED = 'FAILED',

@@ -1,0 +1,107 @@
+/* OrdersPage.module.css */
+:root {
+  --header-h: 300px; /* фактическая высота вашего header */
+}
+
+.container {
+  margin-top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  width: 43vw; /* растягиваем на всю ширину окна */
+  box-sizing: border-box;
+  padding: 24px;
+  display: flex;
+  flex-direction: column; /* чтобы список шёл вертикально */
+  overflow-x: hidden; /* убираем горизонтальный скролл */
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 8px;
+  width: 100%; /* список занимает всю ширину контейнера */
+  max-width: 800px; /* ограничиваем максимальную ширину, чтобы не растягивать слишком */
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  text-decoration: none;
+  padding: 24px;
+  background-color: #1c1c21;
+  border-radius: 40px;
+  width: 100%; /* элемент адаптируется под ширину списка */
+  height: 246px;
+  box-sizing: border-box;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  color: #f2f2f3;
+  text-align: left;
+  align-self: flex-start;
+  margin: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clock {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #8585ad;
+}
+
+.id {
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+  color: #f2f2f3;
+}
+
+.status {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #f2f2f3;
+}
+
+.ingredientImage {
+  position: relative;
+  border-radius: 50%;
+  border: 2px solid #4c4cff;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  background-color: #1a1a1a; /* фон для прозрачных картинок */
+  box-shadow: 0 0 6px rgba(76, 76, 255, 0.5);
+  margin-left: -12px; /* перекрытие как на примере */
+  z-index: 1;
+}
+
+.ingredientImage:first-child {
+  margin-left: 0; /* первый без сдвига */
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-card__price {
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+  color: #f2f2f3;
+  margin-right: 5px;
+}

@@ -1,15 +1,19 @@
+import { IConstructorIngredient } from '../../types/BurgerIngrediend';
 import {
   UPDATE_TYPE,
   DELETE_INGREDIENT,
   MOVE_INGREDIENT,
 } from '../actions/BurgerConstructor';
-import { IAction } from '../../types/BurgerConstructor';
-import { Idata } from '../../types/BurgerIngrediend';
 
 type State = {
-  bun: Idata | null;
-  ingredients: Idata[];
+  bun: IConstructorIngredient | null;
+  ingredients: IConstructorIngredient[];
 };
+
+type IAction =
+  | { type: typeof UPDATE_TYPE; item: IConstructorIngredient }
+  | { type: typeof DELETE_INGREDIENT; uuid: string }
+  | { type: typeof MOVE_INGREDIENT; dragIndex: number; hoverIndex: number };
 
 const initialState: State = {
   bun: null,
@@ -19,37 +23,25 @@ const initialState: State = {
 export const BurgerConstructorReducer = (
   state = initialState,
   action: IAction
-) => {
+): State => {
   switch (action.type) {
     case UPDATE_TYPE:
       if (action.item.type === 'bun') {
-        return {
-          ...state,
-          bun: action.item,
-        };
+        return { ...state, bun: action.item };
       }
-      return {
-        ...state,
-        ingredients: [...state.ingredients, action.item],
-      };
+      return { ...state, ingredients: [...state.ingredients, action.item] };
 
     case DELETE_INGREDIENT:
-      console.log('delete');
       return {
         ...state,
-        ingredients: state.ingredients.filter(
-          (_, index) => index !== action.index
-        ),
+        ingredients: state.ingredients.filter((i) => i.uuid !== action.uuid),
       };
 
     case MOVE_INGREDIENT: {
-      const updatedIngredients = [...state.ingredients];
-      const [removed] = updatedIngredients.splice(action.dragIndex, 1);
-      updatedIngredients.splice(action.hoverIndex, 0, removed);
-      return {
-        ...state,
-        ingredients: updatedIngredients,
-      };
+      const newIngredients = [...state.ingredients];
+      const [removed] = newIngredients.splice(action.dragIndex, 1);
+      newIngredients.splice(action.hoverIndex, 0, removed);
+      return { ...state, ingredients: newIngredients };
     }
 
     default:

@@ -1,0 +1,235 @@
+body {
+  margin: 0;
+  background: #0d0d0d;
+  color: #fff;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1270px;
+  padding: 0 15px;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  gap: 60px;
+  height: calc(100vh - 100px); /* высота окна минус отступы сверху/снизу */
+}
+
+.id {
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 24px;
+  color: #f2f2f3;
+}
+
+.title {
+  font-size: 20px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+.order-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid #333;
+  border-radius: 40px;
+  padding: 24px;
+  margin-bottom: 24px;
+  transition: background 0.2s;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.feed {
+  width: 50%;
+  overflow-y: auto;
+  padding-right: 10px; /* чтобы скроллбар не перекрывал текст */
+}
+
+.summary {
+  width: 50%;
+}
+
+.feed::-webkit-scrollbar {
+  width: 8px;
+}
+
+.feed::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.feed::-webkit-scrollbar-thumb {
+  background: #4c4cff;
+  border-radius: 4px;
+}
+.ingredients {
+  display: flex;
+  align-items: center;
+}
+
+.ingredientImage {
+  position: relative;
+  border-radius: 50%;
+  border: 2px solid #4c4cff;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  background-color: #1a1a1a; /* фон для прозрачных картинок */
+  box-shadow: 0 0 6px rgba(76, 76, 255, 0.5);
+  margin-left: -12px; /* перекрытие как на примере */
+  z-index: 1;
+}
+
+.ingredientImage:first-child {
+  margin-left: 0; /* первый без сдвига */
+}
+
+/* Лента заказов */
+.feed__title {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 40px;
+  margin-bottom: 20px;
+}
+
+.order-card__header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 8px;
+}
+
+.order-card__name {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  margin: 8px 0;
+}
+
+.order-card__ingredients {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.order-card__ingredients img {
+  border-radius: 50%;
+  border: 2px solid #222;
+}
+
+.order-card__footer {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.order-card__price {
+  margin-right: 5px;
+}
+
+/* Сводка */
+.summary {
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.summary__section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 30px;
+}
+
+.ready {
+  width: 50%;
+}
+
+.progress {
+  width: 50%;
+}
+
+.summary__section h2 {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  margin-top: 0;
+}
+
+.summary__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.summary__list li {
+  color: #00cccc;
+  font-size: 28px;
+  line-height: 24px;
+  font-weight: 400;
+  text-align: left;
+  font-weight: bold;
+}
+
+.ready li {
+  color: #00cccc;
+}
+
+.progress li {
+  color: #f2f2f3;
+}
+
+.summary__Allthetime {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.summary__today {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.order-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+}
+
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.summary__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.header {
+  margin: 0;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  color: #f2f2f3;
+}

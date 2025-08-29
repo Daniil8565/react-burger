@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import {
   Routes,
@@ -19,11 +19,17 @@ import ResetPassword from './pages/ResetPassword/ResetPassword';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import IngredientPage from './pages/IngredientPage/IngredientPage';
 import Modal from './components/Modal/Modal';
-import IngredientDetails from './components/IngredientDetails/IngredientDetails';
+import Feed from './pages/feedPage/Feed';
 
 import { useTypedSelector } from './hooks/useTypedSelector';
 import ProtectedRouteElement from './components/ProtectedRouteElement/ProtectedRouteElement';
 import { RootState } from './services/reducers/index';
+import OrderPage from './pages/OrderPage/OrderPage';
+import ProfileForm from './pages/ProfileForm/ProfileForm';
+import OrdersPage from './pages/OrdersPage/OrdersPage';
+import OrderDetailsPage from './pages/OrderDetailsPage/OrderDetailsPage';
+import { refreshAccessToken } from './services/actions/authActions';
+import IngredientModal from './components/IngredientModal/IngredientModal';
 
 function App() {
   const location = useLocation();
@@ -37,14 +43,32 @@ function App() {
     (state: RootState) => state.IngredientDetailsReducer.selectedIngredient
   );
 
-  // Приводим тип location.state к объекту с возможным полем background (если есть)
+  // для модалок
   const state = location.state as { background?: Location };
+  const isAuthChecked = useTypedSelector(
+    (state: RootState) => state.authReducer.isAuthChecked
+  );
+  useEffect(() => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (refreshToken) {
+      dispatch(refreshAccessToken() as any);
+    } else {
+      // Если нет refreshToken, всё равно отмечаем, что проверка завершена
+      dispatch({ type: 'NO_AUTH_CHECK_NEEDED' });
+    }
+  }, [dispatch]);
+
+  if (!isAuthChecked) {
+    // Можно показать лоадер
+    return <div>Загрузка...</div>;
+  }
 
   return (
     <>
       <AppHeader />
+
+      {/* обычные маршруты */}
       <Routes location={state?.background || location}>
-        {/* Публичный маршрут */}
         <Route path="/" element={<CustomBurger />} />
 
         {/* Только для НЕавторизованных */}
@@ -85,7 +109,11 @@ function App() {
           }
         />
 
-        {/* Защищённый маршрут */}
+        {/* Лента заказов */}
+        <Route path="/feed" element={<Feed />} />
+        <Route path="/feed/:id" element={<OrderPage />} />
+
+        {/* Профиль */}
         <Route
           path="/profile"
           element={
@@ -93,14 +121,27 @@ function App() {
               <ProfilePage />
             </ProtectedRouteElement>
           }
+        >
+          <Route index element={<ProfileForm />} />
+          <Route path="orders" element={<OrdersPage />} />
+        </Route>
+        <Route
+          path="/profile/orders/:id"
+          element={
+            <ProtectedRouteElement>
+              <OrderDetailsPage />
+            </ProtectedRouteElement>
+          }
         />
+
+        {/* ингредиенты */}
         <Route path="/ingredients/:id" element={<IngredientPage />} />
       </Routes>
 
-      {/* Модалка поверх главной страницы */}
-      {state?.background && selectedItem && (
+      {/* модальные окна */}
+      {state?.background && (
         <Routes>
-          <Route
+          {/* <Route
             path="/ingredients/:id"
             element={
               <Modal
@@ -110,8 +151,29 @@ function App() {
                 }}
                 header="Детали ингредиента"
               >
-                <IngredientDetails item={selectedItem} />
+                {selectedItem && <IngredientDetails item={selectedItem} />}
               </Modal>
+            }
+          /> */}
+          <Route path="/ingredients/:id" element={<IngredientModal />} />
+
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal onClick={() => navigate(-1)} header="Детали заказа">
+                <OrderPage />
+              </Modal>
+            }
+          />
+
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <ProtectedRouteElement>
+                <Modal onClick={() => navigate(-1)} header="Детали заказа">
+                  <OrderDetailsPage />
+                </Modal>
+              </ProtectedRouteElement>
             }
           />
         </Routes>

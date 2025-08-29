@@ -33,3 +33,20 @@
   display: flex;
   gap: 8px;
 }
+
+.OrderFeed,
+.Designer,
+.PersonalAccount {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none; /* убрать подчёркивание */
+  color: inherit; /* унаследовать цвет текста */
+  cursor: pointer;
+}
+
+.OrderFeed p,
+.Designer p,
+.PersonalAccount p {
+  margin: 0; /* убрать отступы у текста */
+}

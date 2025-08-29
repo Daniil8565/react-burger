@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
-import { useDispatch } from 'react-redux';
+import { useTypedDispatch } from '../../hooks/useTypedDispatch';
 import IngredientDetails from '../../components/IngredientDetails/IngredientDetails';
 import { useActions } from '../../hooks/useAction';
 
 const IngredientPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const dispatch = useDispatch();
+  const dispatch = useTypedDispatch();
   const { getBurgerIngredients } = useActions();
 
   const ingredients = useTypedSelector(

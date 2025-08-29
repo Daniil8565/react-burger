@@ -15,8 +15,7 @@ const ProtectedRouteElement: React.FC<ProtectedRouteProps> = ({
   const location = useLocation();
 
   if (!isAuthenticated && !onlyUnAuth) {
-    // Неавторизован, но пытается попасть в защищённую часть
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/login" state={{ from: location }} />;
   }
 
   if (isAuthenticated && onlyUnAuth) {
