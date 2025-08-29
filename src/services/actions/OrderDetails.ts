@@ -2,9 +2,9 @@ import { Dispatch } from 'redux';
 import { OrderAction, OrderActionTypes } from '../../types/OrderDetails';
 import { RootState } from '../store';
 import { request } from '../../utils/request';
-
+import { AppDispatch } from '../store';
 export const sendOrder = (ingredientIds: string[]) => {
-  return async (dispatch: Dispatch<OrderAction>, getState: () => RootState) => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch({ type: OrderActionTypes.POST_ORDER_REQUEST });
 
     try {

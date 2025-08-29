@@ -19,7 +19,6 @@ import ResetPassword from './pages/ResetPassword/ResetPassword';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import IngredientPage from './pages/IngredientPage/IngredientPage';
 import Modal from './components/Modal/Modal';
-import IngredientDetails from './components/IngredientDetails/IngredientDetails';
 import Feed from './pages/feedPage/Feed';
 
 import { useTypedSelector } from './hooks/useTypedSelector';

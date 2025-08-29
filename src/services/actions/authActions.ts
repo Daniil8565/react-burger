@@ -16,6 +16,7 @@ import {
 } from '../../types/Authtypes';
 import { request } from '../../utils/request';
 import { fetchUser } from './userActions';
+import { AppDispatch } from '../store';
 
 const saveRefreshToken = (token: string) =>
   localStorage.setItem('refreshToken', token);
@@ -26,7 +27,7 @@ const getRefreshToken = (): string | null =>
   localStorage.getItem('refreshToken');
 
 export const registerUser = (email: string, password: string, name: string) => {
-  return async (dispatch: Dispatch<AuthActionTypes>) => {
+  return async (dispatch: AppDispatch) => {
     dispatch({ type: REGISTER_REQUEST });
 
     try {
@@ -50,7 +51,7 @@ export const registerUser = (email: string, password: string, name: string) => {
 };
 
 export const loginUser = (email: string, password: string) => {
-  return async (dispatch: Dispatch<AuthActionTypes>) => {
+  return async (dispatch: AppDispatch) => {
     dispatch({ type: LOGIN_REQUEST });
     console.log('Пользователь зашёл в аккаунта');
     try {
@@ -73,7 +74,7 @@ export const loginUser = (email: string, password: string) => {
 };
 
 export const logoutUser = () => {
-  return async (dispatch: Dispatch<AuthActionTypes>) => {
+  return async (dispatch: AppDispatch) => {
     dispatch({ type: LOGOUT_REQUEST });
 
     try {
@@ -95,7 +96,7 @@ export const logoutUser = () => {
 };
 
 export const refreshAccessToken = () => {
-  return async (dispatch: Dispatch<AuthActionTypes>) => {
+  return async (dispatch: AppDispatch) => {
     dispatch({ type: REFRESH_TOKEN_REQUEST });
 
     try {
