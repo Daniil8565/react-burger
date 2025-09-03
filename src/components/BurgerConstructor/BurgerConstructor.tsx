@@ -81,7 +81,11 @@ const BurgerConstructor: React.FC<{
 
   return (
     <section className={styles.BurgerConstructor}>
-      <div className={styles.ListBurgerWrapper} ref={listRef}>
+      <div
+        data-cy="burger-constructor"
+        className={styles.ListBurgerWrapper}
+        ref={listRef}
+      >
         {/* Верхняя булка */}
         {bun ? (
           <ConstructorElement

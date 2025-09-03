@@ -1,0 +1,25 @@
+{
+  "data": [
+    {
+      "_id": "bun-1",
+      "name": "Булка тестовая",
+      "type": "bun",
+      "price": 100,
+      "image": "/images/bun.png"
+    },
+    {
+      "_id": "sauce-1",
+      "name": "Соус тестовый",
+      "type": "sauce",
+      "price": 50,
+      "image": "/images/sauce.png"
+    },
+    {
+      "_id": "main-1",
+      "name": "Начинка тестовая",
+      "type": "main",
+      "price": 150,
+      "image": "/images/main.png"
+    }
+  ]
+}
