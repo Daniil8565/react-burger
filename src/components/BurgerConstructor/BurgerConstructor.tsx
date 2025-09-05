@@ -46,12 +46,10 @@ const BurgerConstructor: React.FC<{
       };
       dispatch({ type: UPDATE_TYPE, item: ingredientWithUuid });
 
-      if (item.type !== 'bun') {
-        setIngredientCounts((prev) => ({
-          ...prev,
-          [item._id]: (prev[item._id] || 0) + 1,
-        }));
-      }
+      setIngredientCounts((prev) => ({
+        ...prev,
+        [item._id]: item.type === 'bun' ? 1 : (prev[item._id] || 0) + 1,
+      }));
     },
   });
 

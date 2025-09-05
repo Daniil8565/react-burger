@@ -17,13 +17,9 @@ const CustomBurger = () => {
   );
   const { getBurgerIngredients } = useActions();
 
-  useEffect(() => {
-    getBurgerIngredients();
-  }, []);
-
-  if (loading) {
-    return <p>Загрузка...</p>;
-  }
+  // if (loading) {
+  //   return <p>Загрузка...</p>;
+  // }
 
   if (error) {
     return <p>Произошла ошибка при загрузке данных</p>;

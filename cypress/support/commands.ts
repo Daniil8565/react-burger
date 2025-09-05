@@ -35,3 +35,11 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add('prepare', () => {
+  cy.intercept('GET', '**/ingredients', { fixture: 'ingredients.json' }).as(
+    'getIngredients'
+  );
+  cy.visit('http://localhost:3000/');
+  cy.wait('@getIngredients', { timeout: 10000 });
+});
