@@ -12,14 +12,12 @@ import {
 } from '../../types/Usertypes';
 import { Dispatch } from 'redux';
 import { RootState } from '../reducers';
+import { AppDispatch } from '../store';
 
 export const fetchUser = () => {
-  return async (
-    dispatch: Dispatch<UserActionTypes>,
-    getState: () => RootState
-  ) => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch({ type: FETCH_USER_REQUEST });
-    console.log('fetchUser');
+
     try {
       const accessToken = getAccessTokenFromState(getState());
       const data = await request('auth/user', {
@@ -39,10 +37,7 @@ export const fetchUser = () => {
 };
 
 export const updateUser = (name: string, email: string, password?: string) => {
-  return async (
-    dispatch: Dispatch<UserActionTypes>,
-    getState: () => RootState
-  ) => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch({ type: UPDATE_USER_REQUEST });
 
     try {

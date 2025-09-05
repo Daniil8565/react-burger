@@ -5,7 +5,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './ForgotPassword.module.css';
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 import { useActions } from '../../hooks/useAction';
 
 const ForgotPassword = () => {
@@ -13,7 +13,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
   const { sendForgotEmail } = useActions();
 
-  const { success, error, isLoading } = useSelector(
+  const { success, error, isLoading } = useTypedSelector(
     (state: any) => state.forgotPasswordReducer
   );
 

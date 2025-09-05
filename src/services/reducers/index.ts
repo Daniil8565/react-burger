@@ -7,6 +7,8 @@ import { authReducer } from './authReducers';
 import { userReducer } from './userReducer';
 import { resetPasswordReducer } from './ResetPassword';
 import { forgotPasswordReducer } from './ForgotPassword';
+import { ordersReducer } from './orders';
+import { historyOrdersReducer } from './historyOrders';
 
 export const rootReducer = combineReducers({
   BurgerIngredientsReducers,
@@ -17,6 +19,8 @@ export const rootReducer = combineReducers({
   userReducer,
   resetPasswordReducer,
   forgotPasswordReducer,
+  orders: ordersReducer,
+  historyOrders: historyOrdersReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

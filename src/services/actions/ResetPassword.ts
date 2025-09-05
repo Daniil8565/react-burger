@@ -1,15 +1,14 @@
+import { AppDispatch } from '../../services/store';
 import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
   RESET_PASSWORD_FAILURE,
 } from '../../types/ResetPassword';
-
 import { request } from '../../utils/request';
 
-// thunk action для отправки email для сброса пароля
-
-export const resetPassword = (password: string, token: string) => {
-  return async (dispatch: any) => {
+// thunk action для сброса пароля
+export const resetPassword =
+  (password: string, token: string) => async (dispatch: AppDispatch) => {
     dispatch({ type: RESET_PASSWORD_REQUEST });
 
     try {
@@ -34,4 +33,3 @@ export const resetPassword = (password: string, token: string) => {
       dispatch({ type: RESET_PASSWORD_FAILURE, payload: errorMessage });
     }
   };
-};

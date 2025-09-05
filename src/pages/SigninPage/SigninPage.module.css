@@ -15,9 +15,9 @@
 }
 
 .button {
-  width: 128px;
+  width: 100%;
   height: 56px;
-  margin-left: auto;
+  /* margin-left: 175px; */
   margin-right: auto;
   padding: 16px 40px 16px 40px;
 }
