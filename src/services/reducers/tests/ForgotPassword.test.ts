@@ -1,23 +1,11 @@
-import { forgotPasswordReducer } from '../ForgotPassword';
+import { forgotPasswordReducer, initialState } from '../ForgotPassword';
 import {
   SEND_FORGOT_EMAIL_REQUEST,
   SEND_FORGOT_EMAIL_SUCCESS,
   SEND_FORGOT_EMAIL_FAILURE,
 } from '../../../types/ForgotPassword';
 
-interface ForgotPasswordState {
-  isLoading: boolean;
-  error: string | null;
-  success: boolean;
-}
-
 describe('forgotPasswordReducer', () => {
-  const initialState: ForgotPasswordState = {
-    isLoading: false,
-    error: null,
-    success: false,
-  };
-
   it('возвращает начальное состояние', () => {
     expect(forgotPasswordReducer(undefined, { type: '' } as any)).toEqual(
       initialState
@@ -28,6 +16,7 @@ describe('forgotPasswordReducer', () => {
     const action = { type: SEND_FORGOT_EMAIL_REQUEST };
     const state = forgotPasswordReducer(initialState, action);
     expect(state).toEqual({
+      ...initialState,
       isLoading: true,
       error: null,
       success: false,
@@ -41,6 +30,7 @@ describe('forgotPasswordReducer', () => {
       action
     );
     expect(state).toEqual({
+      ...initialState,
       isLoading: false,
       error: null,
       success: true,
@@ -55,6 +45,7 @@ describe('forgotPasswordReducer', () => {
       action
     );
     expect(state).toEqual({
+      ...initialState,
       isLoading: false,
       error: errorMessage,
       success: false,

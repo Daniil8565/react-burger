@@ -1,17 +1,7 @@
-import { orderReducer } from '../OrderDetails';
-import {
-  IOrderState,
-  OrderActionTypes,
-  OrderAction,
-} from '../../../types/OrderDetails';
+import { orderReducer, initialState } from '../OrderDetails';
+import { OrderActionTypes, OrderAction } from '../../../types/OrderDetails';
 
 describe('orderReducer', () => {
-  const initialState: IOrderState = {
-    orderNumber: null,
-    loading: false,
-    error: false,
-  };
-
   it('возвращает начальное состояние', () => {
     expect(orderReducer(undefined, { type: '' } as any)).toEqual(initialState);
   });
@@ -20,9 +10,8 @@ describe('orderReducer', () => {
     const action: OrderAction = { type: OrderActionTypes.POST_ORDER_REQUEST };
     const state = orderReducer(initialState, action);
     expect(state).toEqual({
-      orderNumber: null,
+      ...initialState,
       loading: true,
-      error: false,
     });
   });
 
@@ -33,9 +22,8 @@ describe('orderReducer', () => {
     };
     const state = orderReducer({ ...initialState, loading: true }, action);
     expect(state).toEqual({
+      ...initialState,
       orderNumber: 1234,
-      loading: false,
-      error: false,
     });
   });
 
@@ -43,8 +31,7 @@ describe('orderReducer', () => {
     const action: OrderAction = { type: OrderActionTypes.POST_ORDER_FAILED };
     const state = orderReducer({ ...initialState, loading: true }, action);
     expect(state).toEqual({
-      orderNumber: null,
-      loading: false,
+      ...initialState,
       error: true,
     });
   });

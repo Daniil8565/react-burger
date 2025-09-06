@@ -4,7 +4,7 @@ import {
   OrderActionTypes,
 } from '../../types/OrderDetails';
 
-const initialState: IOrderState = {
+export const initialState: IOrderState = {
   orderNumber: null,
   loading: false,
   error: false,

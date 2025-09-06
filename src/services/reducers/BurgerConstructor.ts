@@ -15,7 +15,7 @@ type IAction =
   | { type: typeof DELETE_INGREDIENT; uuid: string }
   | { type: typeof MOVE_INGREDIENT; dragIndex: number; hoverIndex: number };
 
-const initialState: State = {
+export const initialState: State = {
   bun: null,
   ingredients: [],
 };

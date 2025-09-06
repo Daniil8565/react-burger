@@ -1,7 +1,9 @@
-import { historyOrdersReducer, OrdersState } from '../historyOrders';
 import {
-  ORDERS_WS_MESSAGE,
-  ORDERS_WS_CLEAR,
+  historyOrdersReducer,
+  initialState,
+  OrdersState,
+} from '../historyOrders';
+import {
   wsMessage,
   wsClearOrders,
   IOrder,
@@ -9,12 +11,6 @@ import {
 } from '../../actions/historyOrders';
 
 describe('historyOrdersReducer', () => {
-  const initialState: OrdersState = {
-    orders: [],
-    total: 0,
-    totalToday: 0,
-  };
-
   const sampleOrders: IOrder[] = [
     {
       _id: '1',

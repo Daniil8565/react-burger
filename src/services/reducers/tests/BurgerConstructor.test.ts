@@ -1,4 +1,4 @@
-import { BurgerConstructorReducer } from '../BurgerConstructor';
+import { BurgerConstructorReducer, initialState } from '../BurgerConstructor';
 import {
   UPDATE_TYPE,
   DELETE_INGREDIENT,
@@ -56,10 +56,9 @@ const ingredient2: IConstructorIngredient = {
 
 describe('BurgerConstructorReducer', () => {
   it('возвращает начальное состояние', () => {
-    expect(BurgerConstructorReducer(undefined, { type: '' } as any)).toEqual({
-      bun: null,
-      ingredients: [],
-    });
+    expect(BurgerConstructorReducer(undefined, { type: '' } as any)).toEqual(
+      initialState
+    );
   });
 
   it('обрабатывает UPDATE_TYPE с булкой', () => {
@@ -67,7 +66,7 @@ describe('BurgerConstructorReducer', () => {
       type: UPDATE_TYPE,
       item: bun,
     };
-    const state = BurgerConstructorReducer(undefined, action);
+    const state = BurgerConstructorReducer(initialState, action);
     expect(state.bun).toEqual(bun);
     expect(state.ingredients).toEqual([]);
   });
@@ -77,14 +76,14 @@ describe('BurgerConstructorReducer', () => {
       type: UPDATE_TYPE,
       item: ingredient1,
     };
-    const state = BurgerConstructorReducer(undefined, action);
+    const state = BurgerConstructorReducer(initialState, action);
     expect(state.ingredients).toEqual([ingredient1]);
     expect(state.bun).toBeNull();
   });
 
   it('обрабатывает DELETE_INGREDIENT', () => {
     const startState = {
-      bun: null,
+      ...initialState,
       ingredients: [ingredient1, ingredient2],
     };
     const action: { type: typeof DELETE_INGREDIENT; uuid: string } = {
@@ -97,7 +96,7 @@ describe('BurgerConstructorReducer', () => {
 
   it('обрабатывает MOVE_INGREDIENT (перемещение ингредиентов)', () => {
     const startState = {
-      bun: null,
+      ...initialState,
       ingredients: [ingredient1, ingredient2],
     };
     const action: {

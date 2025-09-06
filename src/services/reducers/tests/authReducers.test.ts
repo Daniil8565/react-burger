@@ -1,5 +1,5 @@
 // authReducer.test.ts
-import { authReducer } from '../authReducers';
+import { authReducer, initialState } from '../authReducers';
 import {
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
@@ -15,15 +15,6 @@ import {
   REFRESH_TOKEN_FAILURE,
 } from '../../../types/Authtypes';
 import { AuthState } from '../../../types/Authtypes';
-
-const initialState: AuthState = {
-  user: null,
-  accessToken: null,
-  isLoading: false,
-  error: null,
-  isAuthenticated: false,
-  isAuthChecked: false,
-};
 
 describe('authReducer', () => {
   it('должен возвращать начальное состояние', () => {
@@ -44,7 +35,7 @@ describe('authReducer', () => {
     const action = {
       type: LOGIN_SUCCESS,
       payload: {
-        user: { email: 'test@test.com', name: 'Test User' }, // ✅ исправлено
+        user: { email: 'test@test.com', name: 'Test User' },
         accessToken: '123',
       },
     };
@@ -62,7 +53,7 @@ describe('authReducer', () => {
   it('обрабатывает LOGOUT_SUCCESS', () => {
     const state: AuthState = {
       ...initialState,
-      user: { email: 'test@test.com', name: 'Test User' }, // ✅ исправлено
+      user: { email: 'test@test.com', name: 'Test User' },
       accessToken: '123',
       isAuthenticated: true,
     };

@@ -1,4 +1,4 @@
-import { IngredientDetailsReducer } from '../IngredientDetails';
+import { IngredientDetailsReducer, initialState } from '../IngredientDetails';
 import {
   SET_INGREDIENT_DETAILS,
   CLEAR_INGREDIENT_DETAILS,
@@ -7,10 +7,6 @@ import { Idata } from '../../../types/BurgerIngrediend';
 import { IngredientDetailsActions } from '../../../types/IngredientDetails';
 
 describe('IngredientDetailsReducer', () => {
-  const initialState = {
-    selectedIngredient: null,
-  };
-
   const sampleIngredient: Idata = {
     _id: '1',
     __v: 0,
@@ -44,15 +40,11 @@ describe('IngredientDetailsReducer', () => {
   });
 
   it('обрабатывает CLEAR_INGREDIENT_DETAILS', () => {
-    const action: IngredientDetailsActions = {
-      type: CLEAR_INGREDIENT_DETAILS,
-    };
+    const action: IngredientDetailsActions = { type: CLEAR_INGREDIENT_DETAILS };
     const state = IngredientDetailsReducer(
       { selectedIngredient: sampleIngredient },
       action
     );
-    expect(state).toEqual({
-      selectedIngredient: null,
-    });
+    expect(state).toEqual(initialState);
   });
 });

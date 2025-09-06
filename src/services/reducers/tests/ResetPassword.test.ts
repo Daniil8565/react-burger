@@ -1,4 +1,8 @@
-import { resetPasswordReducer } from '../ResetPassword';
+import {
+  resetPasswordReducer,
+  initialState,
+  ResetPasswordState,
+} from '../ResetPassword';
 import {
   RESET_PASSWORD_REQUEST,
   RESET_PASSWORD_SUCCESS,
@@ -7,12 +11,6 @@ import {
 import { ResetPasswordActionTypes } from '../../../types/ResetPassword';
 
 describe('resetPasswordReducer', () => {
-  const initialState = {
-    isLoading: false,
-    error: null,
-    success: false,
-  };
-
   it('возвращает начальное состояние', () => {
     expect(resetPasswordReducer(undefined, { type: '' } as any)).toEqual(
       initialState

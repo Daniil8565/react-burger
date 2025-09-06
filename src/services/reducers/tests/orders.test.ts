@@ -1,7 +1,5 @@
-import { ordersReducer, OrdersState } from '../orders';
+import { ordersReducer, initialState, OrdersState } from '../orders';
 import {
-  WS_SET_ORDERS,
-  WS_CLEAR_ORDERS,
   wsSetOrders,
   wsClearOrders,
   IOrder,
@@ -9,12 +7,6 @@ import {
 } from '../../actions/orders';
 
 describe('ordersReducer', () => {
-  const initialState: OrdersState = {
-    orders: [],
-    total: 0,
-    totalToday: 0,
-  };
-
   const sampleOrders: IOrder[] = [
     {
       _id: '1',

@@ -1,10 +1,9 @@
-import { BurgerIngredientsReducers } from '../BurgerIngredients';
+import { BurgerIngredientsReducers, initialState } from '../BurgerIngredients';
 import {
   BurgerActionTypes,
   Idata,
   BurgerAction,
 } from '../../../types/BurgerIngrediend';
-import { IinitialStateBurgerIngredients } from '../../../types/BurgerIngrediend';
 
 const sampleData: Idata[] = [
   {
@@ -39,20 +38,18 @@ const sampleData: Idata[] = [
 
 describe('BurgerIngredientsReducers', () => {
   it('возвращает начальное состояние', () => {
-    expect(BurgerIngredientsReducers(undefined, { type: '' } as any)).toEqual({
-      data: [],
-      loading: true,
-      error: false,
-    });
+    expect(BurgerIngredientsReducers(undefined, { type: '' } as any)).toEqual(
+      initialState
+    );
   });
 
   it('обрабатывает LOADING', () => {
     const action: BurgerAction = { type: BurgerActionTypes.LOADING };
     const state = BurgerIngredientsReducers(
-      { data: null, loading: false, error: true },
+      { ...initialState, loading: false, error: true },
       action
     );
-    expect(state).toEqual({ data: null, loading: true, error: false });
+    expect(state).toEqual({ ...initialState, loading: true, error: false });
   });
 
   it('обрабатывает SUCCESS', () => {
@@ -61,10 +58,15 @@ describe('BurgerIngredientsReducers', () => {
       payload: sampleData,
     };
     const state = BurgerIngredientsReducers(
-      { data: null, loading: true, error: false },
+      { ...initialState, loading: true, error: false },
       action
     );
-    expect(state).toEqual({ data: sampleData, loading: false, error: false });
+    expect(state).toEqual({
+      ...initialState,
+      data: sampleData,
+      loading: false,
+      error: false,
+    });
   });
 
   it('обрабатывает FAILED', () => {
@@ -73,9 +75,9 @@ describe('BurgerIngredientsReducers', () => {
       payload: 'Ошибка',
     };
     const state = BurgerIngredientsReducers(
-      { data: null, loading: true, error: false },
+      { ...initialState, loading: true, error: false },
       action
     );
-    expect(state).toEqual({ data: null, loading: false, error: true });
+    expect(state).toEqual({ ...initialState, loading: false, error: true });
   });
 });

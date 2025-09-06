@@ -1,4 +1,4 @@
-import { userReducer } from '../userReducer';
+import { userReducer, initialState, UserState } from '../userReducer';
 import {
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
@@ -11,12 +11,6 @@ import {
 } from '../../../types/Usertypes';
 
 describe('userReducer', () => {
-  const initialState = {
-    user: { email: '', name: '' },
-    isLoading: false,
-    error: null,
-  };
-
   const sampleUser: IUser = { email: 'test@example.com', name: 'Test User' };
 
   it('возвращает начальное состояние', () => {
@@ -26,11 +20,7 @@ describe('userReducer', () => {
   it('обрабатывает FETCH_USER_REQUEST', () => {
     const action: UserActionTypes = { type: FETCH_USER_REQUEST };
     const state = userReducer(initialState, action);
-    expect(state).toEqual({
-      ...initialState,
-      isLoading: true,
-      error: null,
-    });
+    expect(state).toEqual({ ...initialState, isLoading: true });
   });
 
   it('обрабатывает FETCH_USER_SUCCESS', () => {
@@ -62,11 +52,7 @@ describe('userReducer', () => {
   it('обрабатывает UPDATE_USER_REQUEST', () => {
     const action: UserActionTypes = { type: UPDATE_USER_REQUEST };
     const state = userReducer(initialState, action);
-    expect(state).toEqual({
-      ...initialState,
-      isLoading: true,
-      error: null,
-    });
+    expect(state).toEqual({ ...initialState, isLoading: true });
   });
 
   it('обрабатывает UPDATE_USER_SUCCESS', () => {
