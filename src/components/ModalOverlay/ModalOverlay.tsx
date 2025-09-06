@@ -9,6 +9,7 @@ const ModalOverlay: React.FC<ModalOverlayProps> = ({ onClick }) => (
   <div
     className={styles.overlay}
     onClick={onClick}
+    data-testid="overlay"
     aria-label="Закрыть модалку"
   />
 );

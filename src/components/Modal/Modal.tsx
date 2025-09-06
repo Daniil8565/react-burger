@@ -33,7 +33,11 @@ const Modal: React.FC<ModalProps> = ({ children, onClick, header = '' }) => {
       <aside className={styles.modal}>
         <header className={styles.modalHeader}>
           <h2 className="text text_type_digits-medium">{header}</h2>
-          <div className={styles.modalClose} onClick={onClick}>
+          <div
+            className={styles.modalClose}
+            onClick={onClick}
+            data-testid="closeIcon"
+          >
             <CloseIcon type="primary" />
           </div>
         </header>

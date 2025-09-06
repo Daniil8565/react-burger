@@ -11,7 +11,7 @@ export interface OrdersState {
   totalToday: number;
 }
 
-const initialState: OrdersState = {
+export const initialState: OrdersState = {
   orders: [],
   total: 0,
   totalToday: 0,

@@ -10,7 +10,7 @@ interface ForgotPasswordState {
   success: boolean;
 }
 
-const initialState: ForgotPasswordState = {
+export const initialState: ForgotPasswordState = {
   isLoading: false,
   error: null,
   success: false,

@@ -14,8 +14,8 @@ const SigninPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [valueEmail, setValueEmail] = React.useState('bob@example.com');
-  const [valuePassword, setValuePassword] = React.useState('password');
+  const [valueEmail, setValueEmail] = React.useState('');
+  const [valuePassword, setValuePassword] = React.useState('');
   const { loginUser, fetchUser } = useActions();
 
   const { isLoading, error, isAuthenticated } = useTypedSelector(

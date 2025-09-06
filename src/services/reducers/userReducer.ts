@@ -9,13 +9,13 @@ import {
   IUser,
 } from '../../types/Usertypes';
 
-interface UserState {
+export interface UserState {
   user: IUser;
   isLoading: boolean;
   error: string | null;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
   user: { email: '', name: '' },
   isLoading: false,
   error: null,

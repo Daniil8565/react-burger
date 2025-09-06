@@ -30,6 +30,7 @@ import OrdersPage from './pages/OrdersPage/OrdersPage';
 import OrderDetailsPage from './pages/OrderDetailsPage/OrderDetailsPage';
 import { refreshAccessToken } from './services/actions/authActions';
 import IngredientModal from './components/IngredientModal/IngredientModal';
+import { getBurgerIngredients } from './services/actions/BurgerIngredients';
 
 function App() {
   const location = useLocation();
@@ -48,7 +49,9 @@ function App() {
   const isAuthChecked = useTypedSelector(
     (state: RootState) => state.authReducer.isAuthChecked
   );
+
   useEffect(() => {
+    dispatch(getBurgerIngredients() as any);
     const refreshToken = localStorage.getItem('refreshToken');
     if (refreshToken) {
       dispatch(refreshAccessToken() as any);
@@ -58,10 +61,10 @@ function App() {
     }
   }, [dispatch]);
 
-  if (!isAuthChecked) {
-    // Можно показать лоадер
-    return <div>Загрузка...</div>;
-  }
+  // if (!isAuthChecked) {
+  //   // Можно показать лоадер
+  //   return <div>Загрузка...</div>;
+  // }
 
   return (
     <>

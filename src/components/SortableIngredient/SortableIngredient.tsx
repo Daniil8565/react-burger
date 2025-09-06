@@ -51,6 +51,7 @@ const SortableIngredient: React.FC<Props> = ({
       ref={ref}
       className={styles.burgerItem}
       style={{ opacity: isDragging ? 0.5 : 1 }}
+      data-cy="sortable-ingredient"
     >
       <DragIcon type="primary" />
       <ConstructorElement

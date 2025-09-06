@@ -8,7 +8,7 @@ type IngredientDetailsProps = {
 
 const IngredientDetails: React.FC<IngredientDetailsProps> = ({ item }) => {
   return (
-    <div className={styles.contentModal}>
+    <div data-testid="ingredient" className={styles.contentModal}>
       <img src={item.image_large} alt={item.name} className={styles.image} />
       <p className={`text text_type_digits-default ${styles.title}`}>
         {item.name}

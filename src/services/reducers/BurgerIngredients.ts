@@ -1,7 +1,7 @@
 import { BurgerActionTypes, BurgerAction } from '../../types/BurgerIngrediend';
 import { IinitialStateBurgerIngredients } from '../../types/BurgerIngrediend';
 
-const initialState: IinitialStateBurgerIngredients = {
+export const initialState: IinitialStateBurgerIngredients = {
   data: [],
   loading: true,
   error: false,
