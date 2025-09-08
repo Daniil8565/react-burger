@@ -25,6 +25,7 @@ export const DraggableIngredient = ({
     <>
       <DragPreviewImage connect={preview} src={item.image} />
       <div
+        data-cy={`ingredient-${item.type}`}
         className={styles.BurgerItem}
         onClick={onClick}
         ref={ref as React.Ref<HTMLDivElement> | undefined}

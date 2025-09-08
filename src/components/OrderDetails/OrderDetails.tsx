@@ -20,7 +20,7 @@ const OrderDetails = () => {
   }
 
   return (
-    <div className={styles.contentModal}>
+    <div className={styles.contentModal} data-testid="ingredient">
       <p className={`text text_type_digits-large ${styles.isDigit}`}>
         {orderNumber}
       </p>

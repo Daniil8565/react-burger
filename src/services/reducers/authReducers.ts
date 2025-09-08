@@ -16,7 +16,7 @@ import {
 
 import { AuthActionTypes } from '../../types/Authtypes';
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
   user: null,
   accessToken: null,
   isLoading: false,

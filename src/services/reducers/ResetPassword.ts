@@ -4,13 +4,13 @@ import {
   RESET_PASSWORD_FAILURE,
 } from '../../types/ResetPassword';
 
-interface ResetPasswordState {
+export interface ResetPasswordState {
   isLoading: boolean;
   error: string | null;
   success: boolean;
 }
 
-const initialState: ResetPasswordState = {
+export const initialState: ResetPasswordState = {
   isLoading: false,
   error: null,
   success: false,
